@@ -1,0 +1,10 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Enable frequency and gain control": "Włącz sterowanie częstotliwością i gainem",
+    "Meter interval (ms)": "Interwał mierników (ms)",
+    "Receiver band lower limit (MHz)": "Dolna granica pasma odbiornika (MHz)",
+    "Receiver band upper limit (MHz)": "Górna granica pasma odbiornika (MHz)",
+    "Response timeout (s)": "Timeout odpowiedzi (s)"
+  }
+}

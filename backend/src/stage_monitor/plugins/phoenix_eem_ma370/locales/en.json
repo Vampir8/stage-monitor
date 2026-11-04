@@ -1,0 +1,19 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Active power": "Active power",
+    "Apparent power": "Apparent power",
+    "Current": "Current",
+    "Exported energy": "Exported energy",
+    "Float32 word order": "Float32 word order",
+    "Frequency": "Frequency",
+    "Imported energy": "Imported energy",
+    "Line-to-line voltage": "Line-to-line voltage",
+    "Modbus Unit ID": "Modbus Unit ID",
+    "Neutral current": "Neutral current",
+    "Power factor": "Power factor",
+    "Reactive power": "Reactive power",
+    "Response timeout (s)": "Response timeout (s)",
+    "Voltage": "Voltage"
+  }
+}

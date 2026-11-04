@@ -1,0 +1,9 @@
+data_dir: data
+mock_mode: false
+allowed_origins:
+  - http://localhost:8080
+secure_cookies: false
+session_seconds: 28800
+history_sample_seconds: 5
+history_retention_days: 14
+plugin_dirs: []

@@ -1,0 +1,15 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Group ID": "ID grupy",
+    "MP3 player": "Odtwarzacz MP3",
+    "Mode": "Tryb",
+    "OBS Wave Player connection key (Windows vault)": "Klucz połączenia OBS Wave Player (magazyn Windows)",
+    "Peak": "Peak",
+    "Position (seconds)": "Pozycja (sekundy)",
+    "RMS": "RMS",
+    "Tempo": "Tempo",
+    "Track ID": "ID utworu",
+    "Volume (0–1)": "Głośność (0–1)"
+  }
+}

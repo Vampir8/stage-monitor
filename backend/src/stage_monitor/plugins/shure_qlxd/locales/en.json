@@ -1,0 +1,10 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Enable frequency and gain control": "Enable frequency and gain control",
+    "Meter interval (ms)": "Meter interval (ms)",
+    "Receiver band lower limit (MHz)": "Receiver band lower limit (MHz)",
+    "Receiver band upper limit (MHz)": "Receiver band upper limit (MHz)",
+    "Response timeout (s)": "Response timeout (s)"
+  }
+}

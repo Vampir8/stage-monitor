@@ -1,0 +1,9 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Temperature": "Temperatura",
+    "Humidity": "Wilgotność",
+    "Status endpoint": "Endpoint statusu",
+    "Enable output control": "Włącz sterowanie wyjściem"
+  }
+}

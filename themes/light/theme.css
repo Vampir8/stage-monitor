@@ -1,0 +1,102 @@
+/* Light Stage Monitor skin: flat paper-white readings and cool grey panels. */
+:root[data-theme="light"]{
+  --font-ui:"Segoe UI",Arial,sans-serif;
+  --text:#172b3c;--muted:#526372;--line:transparent;
+  --green:#167847;--blue:#176da6;--purple:#8146a6;
+  --orange:#92550d;--teal:#087d85;--yellow:#8c6a0a;--red:#b6263b;
+  color-scheme:light;
+}
+[data-theme="light"] body{font-family:var(--font-ui);background:#edf1f5}
+[data-theme="light"] :is(.topbar,.backend-bar){border-radius:2px;background:#ffffff;border-color:transparent;box-shadow:none;backdrop-filter:none}
+[data-theme="light"] :is(.topbar button,.btn,.expand-toggle,.chat-tab,.chat-send,.chat-user){
+  border-radius:2px;border:1px solid transparent;background:#dce4eb;color:#172b3c;box-shadow:none;transform:none;
+}
+[data-theme="light"] :is(.topbar button,.btn,.expand-toggle,.chat-tab,.chat-send):hover:not(:disabled){background:#cbd8e2;border-color:transparent;box-shadow:none;transform:none}
+[data-theme="light"] :is(.topbar button.active,.btn.is-active,.btn.active,.expand-toggle.active,.chat-tab.active){background:#246b9c;color:#ffffff;border-color:transparent;box-shadow:none}
+[data-theme="light"] :is(button,input,select,textarea):focus-visible{outline:2px solid #246b9c;outline-offset:2px}
+[data-theme="light"] :is(.card,.live-device,.weather-live,.network-card){border-radius:2px;background:#dfe6ec;border-color:transparent;box-shadow:none}
+[data-theme="light"] .card::before{box-shadow:none}
+[data-theme="light"] .live-device .header{background:#edf2f6;border-bottom:3px solid var(--scroll-color,var(--orange));padding-bottom:5px;box-shadow:none}
+[data-theme="light"] .live-device .title{color:#fff;font-weight:700;text-shadow:none;letter-spacing:.02em}
+[data-theme="light"] .live-device :is(.subtitle,.telemetry-time,.weather-health){color:#526372}
+[data-theme="light"] .divider{background:#c5d0d9;box-shadow:none}
+[data-theme="light"] :is(.info-row,.live-trace,.chat-stat,.chat-preview-item,.crs-port){border-radius:2px;background:#ffffff;border:1px solid transparent;box-shadow:none}
+[data-theme="light"] .info-label{color:#526372;letter-spacing:.06em}
+[data-theme="light"] .info-value{color:#172b3c;font-variant-numeric:tabular-nums}
+[data-theme="light"] :is(.history-title,.trace-note){color:#526372}
+[data-theme="light"] .status{border-radius:2px;background:#ffffff;border-color:transparent}
+[data-theme="light"] .status .dot{border-radius:1px;box-shadow:none}
+[data-theme="light"] .live-meters{background:#edf2f6;border-radius:2px;border:1px solid transparent}
+[data-theme="light"] .meter-track{border-radius:0;background:#d5dfe7;border:1px solid transparent;box-shadow:none}
+[data-theme="light"] .meter-fill{border-radius:0;box-shadow:none}
+[data-theme="light"] .meter-fill.green-fill{background:#167847}
+[data-theme="light"] .meter-fill.blue-fill{background:#176da6}
+[data-theme="light"] .meter-fill.purple-fill{background:#8146a6}
+[data-theme="light"] .meter-track::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to top,transparent 0,transparent 5px,#d5dfe7 5px,#d5dfe7 6px)}
+[data-theme="light"] :is(.meter-value-top,.meter-head){color:#172b3c;font-variant-numeric:tabular-nums}
+[data-theme="light"] .trace-plot{background-color:#ffffff;background-image:linear-gradient(#78909f24 1px,transparent 1px),linear-gradient(90deg,#78909f24 1px,transparent 1px);background-size:18px 18px}
+[data-theme="light"] :is(.weather-map,.live-preview,.widget-ptz,.camera-joystick){border-radius:2px;border-color:transparent;background-color:#f4f7fa}
+[data-theme="light"] :is(.chat-messages,.chat-tabs,.chat-users,.chat-compose){border-color:transparent}
+[data-theme="light"] .message-bubble{border-radius:2px;background:#ffffff;border-color:transparent;color:#172b3c}
+[data-theme="light"] .chat-message.mine .message-bubble{border-radius:2px;background:#d9eaf6;border-color:transparent;color:#172b3c}
+[data-theme="light"] .avatar{border-radius:2px;background:#246b9c;color:#ffffff;box-shadow:none}
+[data-theme="light"] .chat-online-dot{box-shadow:none}
+[data-theme="light"] :is(.chat-preview,.chat-compact,.chat-stat-grid,.active-alert-item,.alert-row,.chat-alarm-notice){border-radius:2px}
+[data-theme="light"] .active-alert-item{background:#ffe5e8;border-color:#b6263b}
+[data-theme="light"] .alert-status-resolved{background:#d9f2e1}
+[data-theme="light"] .settings-dialog{border-radius:0;background:#f3f6f9;border:1px solid transparent;box-shadow:none}
+[data-theme="light"] .pinned-heading-dialog>.settings-heading{background:#dfe8ef;border-bottom:2px solid #246b9c}
+[data-theme="light"] .settings-heading h2{font-size:20px;letter-spacing:.02em}
+[data-theme="light"] :is(.settings-dialog,.live-controls,.chat-compose) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea){border-radius:2px;background:#ffffff;border-color:transparent;color:#172b3c;box-shadow:none}
+[data-theme="light"] :is(input[type="checkbox"],input[type="radio"],input[type="range"]){accent-color:#246b9c}
+[data-theme="light"] .settings-dialog :is(label,.settings-help,.alerts-help){color:#405767}
+[data-theme="light"] .settings-dialog :is(h3,legend){color:#172b3c}
+[data-theme="light"] .settings-dialog .device-delete{background:#ffe5e8;color:#a21e32;border-color:#b6263b}
+[data-theme="light"] .settings-dialog .device-delete:hover{background:#f8ccd3}
+[data-theme="light"] .dashboard-clock{background:#ffffff;border:1px solid transparent;border-radius:2px}
+[data-theme="light"] :is(.dashboard-clock-time,.dashboard-clock-date){color:#172b3c}
+[data-theme="light"] .dashboard-center{scrollbar-color:#748899 #dfe6ec}
+[data-theme="light"] .dashboard-center::-webkit-scrollbar-thumb{background:#748899;border-radius:0}
+[data-theme="light"] .live-device::-webkit-scrollbar-thumb,[data-theme="light"] .live-device *::-webkit-scrollbar-thumb{border-radius:0}
+
+/* Keep the existing spacing, with surfaces instead of decorative outlines. */
+[data-theme="light"] .card .btn,
+[data-theme="light"] .card .btn:hover:not(:disabled),
+[data-theme="light"] .card .btn.is-active,
+[data-theme="light"] .topbar button,
+[data-theme="light"] .topbar button.active{border-color:transparent;box-shadow:none}
+
+/* Square corners throughout this skin, including shared dialog widgets. */
+[data-theme="light"] body :is(.card,.card *,.topbar,.topbar *,.backend-bar,.backend-bar *,.settings-dialog,.settings-dialog *,.live-notice){border-radius:0!important}
+
+[data-theme="light"] .live-device .title{color:#172b3c}
+[data-theme="light"] .live-device :is(.subtitle,.telemetry-time,.weather-health){color:#526372}
+[data-theme="light"] .live-device .status.ok{color:#126a3b}
+[data-theme="light"] .live-device .status.warn{color:#815400}
+[data-theme="light"] .live-device .status.error{color:#b6263b}
+[data-theme="light"] .simulation-badge{color:#815400}
+[data-theme="light"] .health-ok{color:#126a3b!important}
+[data-theme="light"] .health-degraded{color:#815400!important}
+[data-theme="light"] :is(.health-error,.settings-error,.command-feedback.error,.chat-error){color:#b6263b!important}
+[data-theme="light"] :is(.health-unknown,.health-disabled){color:#526372!important}
+[data-theme="light"] .alerts-active{color:#b6263b!important;border-color:#b6263b!important}
+[data-theme="light"] .alert-row:is(.alert-status-active,.alert-status-acknowledged){background:#ffe5e8;--alert-color:#a21e32}
+[data-theme="light"] .alert-row.alert-status-resolved{background:#d9f2e1;--alert-color:#126a3b}
+[data-theme="light"] .active-alert-item{color:#a21e32}
+[data-theme="light"] .chat-alarm-notice{background:#ffe5e8;color:#a21e32}
+[data-theme="light"] .chat-alarm-notice.resolved{background:#d9f2e1;color:#126a3b}
+[data-theme="light"] :is(.health-tile,.health-device,.topology-node,.topology-cause,.dependency-editor,.service-values>div){background:#fff;border-color:#cad5de;color:#172b3c}
+[data-theme="light"] :is(.health-note,.alerts-help,.alert-row small,.alert-row span,.settings-dialog small,.settings-dialog .alerts-field,.live-device .live-controls label){color:#526372}
+[data-theme="light"] .crs-port.up .pstate{color:#126a3b}
+[data-theme="light"] .crs-port.down .pstate{color:#b6263b}
+[data-theme="light"] .connection-status{color:#815400}
+[data-theme="light"] .connection-status.connected{color:#126a3b}
+[data-theme="light"] .trace-plot{background-image:linear-gradient(#cad5de99 1px,transparent 1px),linear-gradient(90deg,#cad5de99 1px,transparent 1px)}
+[data-theme="light"] .dashboard-center{scrollbar-color:#748899 transparent}
+[data-theme="light"] .chat-live .chat-preview-text{color:#172b3c}
+[data-theme="light"] .live-notice{background:#fff;color:#172b3c;border-color:#cad5de}
+[data-theme="light"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn){background:#dce4eb!important;color:#172b3c!important;border-color:transparent!important}
+[data-theme="light"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn):hover{background:#cbd8e2!important}
+[data-theme="light"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn).active{background:#246b9c!important;color:#fff!important}
+[data-theme="light"] .health-dialog :is(h3,.health-tile span){color:#405767}
+[data-theme="light"] :is(.health-category>span:last-child,.health-device summary>span:last-child,.health-device p){color:#526372}

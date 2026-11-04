@@ -1,0 +1,282 @@
+plugin_id: obsbot.tail_air
+plugin_version: 0.3.1
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.obsbot_tail_air.plugin:TailAirPlugin
+manufacturer: OBSBOT
+model: Tail Air
+supported_protocols:
+- udp
+communication_mode: polling
+capabilities:
+- id: camera.position
+  writable: true
+- id: camera.zoom
+  writable: true
+- id: camera.focus
+  writable: true
+- id: camera.tracking
+  writable: true
+- id: camera.presets
+  writable: true
+- id: battery.telemetry
+  writable: false
+- id: camera.temperature
+  writable: false
+commands:
+- name: recall_preset
+  capability_id: camera.presets
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties:
+      preset_number:
+        type: integer
+        title: Preset number
+        minimum: 1
+        maximum: 256
+    required:
+    - preset_number
+    additionalProperties: false
+- name: save_preset
+  capability_id: camera.presets
+  timeout_seconds: 5
+  parameters_schema:
+    type: object
+    properties:
+      preset_number:
+        type: integer
+        title: Preset number
+        minimum: 1
+        maximum: 256
+    required:
+    - preset_number
+    additionalProperties: false
+- name: set_tracking
+  capability_id: camera.tracking
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties:
+      mode:
+        type: string
+        title: Tracking
+        enum:
+        - false
+        - normal
+        - upper_body
+        - close_up
+    required:
+    - mode
+    additionalProperties: false
+- name: set_position
+  capability_id: camera.position
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties:
+      pan_deg:
+        type: number
+        title: Pan (degrees)
+        minimum: -148.95
+        maximum: 148.95
+        x-step: 0.075
+      tilt_deg:
+        type: number
+        title: Tilt (degrees)
+        minimum: -84
+        maximum: 84
+        x-step: 0.075
+    required:
+    - pan_deg
+    - tilt_deg
+    additionalProperties: false
+- name: set_zoom
+  capability_id: camera.zoom
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties:
+      zoom_ratio:
+        type: number
+        title: Zoom (x)
+        minimum: 1
+        maximum: 4
+        x-step: 0.01
+    required:
+    - zoom_ratio
+    additionalProperties: false
+- name: set_focus_mode
+  capability_id: camera.focus
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties:
+      mode:
+        type: string
+        title: Focus
+        enum:
+        - auto
+        - manual
+    required:
+    - mode
+    additionalProperties: false
+- name: home
+  capability_id: camera.position
+  timeout_seconds: 5
+  idempotent: true
+  parameters_schema:
+    type: object
+    properties: {}
+    additionalProperties: false
+telemetry:
+- key: camera.pan_deg
+  value_type: number
+  unit: deg
+- key: camera.tilt_deg
+  value_type: number
+  unit: deg
+- key: camera.zoom_ratio
+  value_type: number
+  unit: x
+- key: camera.focus_mode
+  value_type: string
+- key: camera.tracking_mode
+  value_type: string
+- key: battery.percent
+  title: Battery
+  value_type: number
+  unit: '%'
+- key: battery.temperature
+  title: Battery temp.
+  value_type: number
+  unit: degC
+- key: camera.lens_temperature
+  title: Lens temp.
+  value_type: number
+  unit: degC
+dashboard:
+  widgets:
+  - id: ptz
+    type: ptz
+    label: PTZ arrows / HOME
+    commands:
+    - set_position
+    - home
+  - id: zoom
+    type: zoom
+    label: Zoom − / +
+    commands:
+    - set_zoom
+  - id: focus
+    type: focus
+    label: Autofocus / manual
+    commands:
+    - set_focus_mode
+  - id: tracking
+    type: tracking
+    label: Tracking ON / OFF
+    commands:
+    - set_tracking
+  - id: presets
+    type: presets
+    label: HOME / presets 1–3
+    commands:
+    - home
+    - recall_preset
+  - id: video
+    type: video
+    label: Video sources / preview
+    commands: []
+  - id: extras
+    type: camera-extras
+    label: Other buttons (unavailable in adapter)
+    commands: []
+  collapsed:
+  - network:host
+  - metric:battery.percent
+  - metric:battery.temperature
+  - metric:camera.lens_temperature
+  - metric:camera.tracking_mode
+  - metric:camera.pan_deg
+  - metric:camera.tilt_deg
+  - metric:camera.zoom_ratio
+  - widget:tracking
+  - widget:presets
+  expanded:
+  - network:host
+  - metric:battery.percent
+  - metric:battery.temperature
+  - metric:camera.lens_temperature
+  - metric:camera.tracking_mode
+  - metric:camera.pan_deg
+  - metric:camera.tilt_deg
+  - metric:camera.zoom_ratio
+  - metric:camera.focus_mode
+  - widget:video
+  - widget:ptz
+  - widget:zoom
+  - widget:focus
+  - widget:tracking
+  - widget:presets
+  - widget:extras
+configuration_schema:
+  type: object
+  x-default-port: 52381
+  properties:
+    video_fps:
+      type: integer
+      title: Video preview — FPS limit
+      enum:
+      - 15
+      - 25
+      - 30
+      - 50
+      - 60
+      default: 15
+    enable_control:
+      type: boolean
+      title: Enable camera control
+      default: false
+    enable_portal_telemetry:
+      type: boolean
+      title: Read battery and temperature from portal
+      default: true
+    portal_port:
+      type: integer
+      title: Camera portal HTTP port
+      minimum: 1
+      maximum: 65535
+      default: 80
+    request_timeout:
+      type: number
+      title: Read timeout (s)
+      minimum: 0.2
+      maximum: 1
+      default: 1
+    video_sources:
+      type: array
+      title: Additional video sources (NDI discovered automatically)
+      maxItems: 8
+      items:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - ndi
+            - rtsp
+            - srt
+            - webrtc
+          source:
+            type: string
+            maxLength: 500
+        required:
+        - type
+        - source
+        additionalProperties: false
+  additionalProperties: false

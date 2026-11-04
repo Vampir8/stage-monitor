@@ -1,0 +1,19 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Active power": "Moc czynna",
+    "Apparent power": "Moc pozorna",
+    "Current": "Prąd",
+    "Exported energy": "Energia oddana",
+    "Float32 word order": "Kolejność słów float32",
+    "Frequency": "Częstotliwość",
+    "Imported energy": "Energia pobrana",
+    "Line-to-line voltage": "Napięcie międzyfazowe",
+    "Modbus Unit ID": "Modbus Unit ID",
+    "Neutral current": "Prąd N",
+    "Power factor": "Współczynnik mocy",
+    "Reactive power": "Moc bierna",
+    "Response timeout (s)": "Timeout odpowiedzi (s)",
+    "Voltage": "Napięcie"
+  }
+}

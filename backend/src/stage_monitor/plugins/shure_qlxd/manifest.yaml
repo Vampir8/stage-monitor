@@ -1,0 +1,116 @@
+plugin_id: shure.qlxd
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.shure_qlxd.plugin:QLXDPlugin
+manufacturer: Shure
+model: QLX-D / QLXD4
+supported_protocols:
+- tcp
+communication_mode: hybrid
+capabilities:
+- id: rf.monitoring
+- id: rf.frequency
+  writable: true
+- id: audio.gain
+  writable: true
+commands:
+- name: set_frequency
+  capability_id: rf.frequency
+  idempotent: true
+  timeout_seconds: 3
+  snapshot_parameters:
+    frequency_mhz: frequency_mhz
+  parameters_schema:
+    type: object
+    properties:
+      frequency_mhz:
+        type: number
+        minimum: 100
+        maximum: 999.999
+        x-step: 0.001
+    required:
+    - frequency_mhz
+    additionalProperties: false
+- name: set_gain
+  capability_id: audio.gain
+  idempotent: true
+  timeout_seconds: 3
+  snapshot_parameters:
+    gain_db: gain_db
+  parameters_schema:
+    type: object
+    properties:
+      gain_db:
+        type: integer
+        minimum: -18
+        maximum: 42
+    required:
+    - gain_db
+    additionalProperties: false
+telemetry:
+- key: rf.level
+  value_type: number
+  unit: raw
+  minimum: 0
+  maximum: 115
+- key: audio.level
+  value_type: number
+  unit: raw
+  minimum: 0
+  maximum: 50
+- key: battery.percent
+  value_type: number
+  unit: '%'
+- key: battery.bars
+  value_type: number
+  unit: bars
+  minimum: 0
+  maximum: 5
+- key: battery.runtime_minutes
+  value_type: number
+  unit: min
+- key: battery.temperature
+  value_type: number
+  unit: degC
+configuration_schema:
+  type: object
+  x-default-port: 2202
+  properties:
+    meter_interval_ms:
+      type: integer
+      title: Meter interval (ms)
+      minimum: 100
+      maximum: 1000
+      default: 250
+    request_timeout:
+      type: number
+      title: Response timeout (s)
+      minimum: 0.2
+      maximum: 1
+      default: 1
+    enable_control:
+      type: boolean
+      title: Enable frequency and gain control
+      default: false
+    min_frequency_mhz:
+      type: number
+      title: Receiver band lower limit (MHz)
+      minimum: 100
+      maximum: 999.999
+    max_frequency_mhz:
+      type: number
+      title: Receiver band upper limit (MHz)
+      minimum: 100
+      maximum: 999.999
+  additionalProperties: false
+  allOf:
+  - if:
+      properties:
+        enable_control:
+          const: true
+      required:
+      - enable_control
+    then:
+      required:
+      - min_frequency_mhz
+      - max_frequency_mhz

@@ -1,0 +1,24 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Active DMX outputs": "Aktywne wyjścia DMX",
+    "Art-Net firmware revision": "Rewizja firmware Art-Net",
+    "ArtPoll response window (s)": "Okno odpowiedzi ArtPoll (s)",
+    "Configured DMX frequency": "Ustawiona częstotliwość DMX",
+    "Configured outputs": "Skonfigurowane wyjścia",
+    "Input data": "Dane na wejściu",
+    "Input error": "Błąd wejścia",
+    "Input protocol": "Protokół wejścia",
+    "Input universe (from 0)": "Universe wejścia (od 0)",
+    "Merge active": "Merge aktywny",
+    "Output data": "Dane na wyjściu",
+    "Output protocol": "Protokół wyjścia",
+    "Output short circuit": "Zwarcie wyjścia",
+    "Output universe (from 0)": "Universe wyjścia (od 0)",
+    "Port errors": "Błędy portów",
+    "Port mode": "Tryb portu",
+    "RDM enabled": "RDM włączone",
+    "Reported ports": "Raportowane porty",
+    "Uptime": "Czas pracy"
+  }
+}

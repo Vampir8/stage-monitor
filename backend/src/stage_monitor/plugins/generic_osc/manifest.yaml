@@ -1,0 +1,751 @@
+plugin_id: generic.osc
+plugin_version: 0.2.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.generic_osc.plugin:OSCPlugin
+manufacturer: Generic
+model: OSC UDP — control editor
+supported_protocols:
+- udp
+communication_mode: polling
+capabilities:
+- id: osc.monitoring
+  writable: false
+- id: osc.control
+  writable: true
+- id: configuration.osc_test
+  writable: true
+commands:
+- name: send_osc
+  capability_id: osc.control
+  idempotent: false
+  parameters_schema:
+    type: object
+    properties:
+      button_id:
+        type: string
+        minLength: 1
+        maxLength: 48
+        pattern: ^[a-z][a-z0-9_]*$
+      action:
+        type: string
+        enum:
+        - trigger
+        - press
+        - release
+        - 'on'
+        - 'off'
+        - set
+      value:
+        type: number
+    required:
+    - button_id
+    additionalProperties: false
+- name: test_osc
+  capability_id: configuration.osc_test
+  idempotent: false
+  parameters_schema:
+    type: object
+    $defs:
+      argument:
+        type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - i
+            - f
+            - s
+            - T
+            - F
+            - N
+          value:
+            type:
+            - number
+            - string
+            - boolean
+            - 'null'
+        required:
+        - type
+        additionalProperties: false
+        allOf:
+        - if:
+            properties:
+              type:
+                const: i
+          then:
+            required:
+            - value
+            properties:
+              value:
+                type: integer
+                minimum: -2147483648
+                maximum: 2147483647
+        - if:
+            properties:
+              type:
+                const: f
+          then:
+            required:
+            - value
+            properties:
+              value:
+                type: number
+                minimum: -3.4028234e+38
+                maximum: 3.4028234e+38
+        - if:
+            properties:
+              type:
+                const: s
+          then:
+            required:
+            - value
+            properties:
+              value:
+                type: string
+                maxLength: 1000
+                pattern: ^[^\u0000]*$
+      arguments:
+        type: array
+        maxItems: 32
+        items:
+          $ref: '#/$defs/argument'
+        default: []
+      control:
+        type: object
+        properties:
+          id:
+            type: string
+            minLength: 1
+            maxLength: 48
+            pattern: ^[a-z][a-z0-9_]*$
+          label:
+            type: string
+            minLength: 1
+            maxLength: 80
+          address:
+            type: string
+            minLength: 1
+            maxLength: 256
+            pattern: ^/[^\s\u0000*?\[\]{}#,]*$
+          collapsed:
+            type: boolean
+            default: true
+          expanded:
+            type: boolean
+            default: true
+          arguments:
+            type: array
+            maxItems: 32
+            items:
+              $ref: '#/$defs/argument'
+            default: []
+          kind:
+            type: string
+            enum:
+            - trigger
+            - momentary
+            - toggle
+            - slider
+            default: trigger
+          release_arguments:
+            $ref: '#/$defs/arguments'
+          off_arguments:
+            $ref: '#/$defs/arguments'
+          feedback_id:
+            type: string
+            maxLength: 48
+            pattern: ^$|^[a-z][a-z0-9_]*$
+            default: ''
+          feedback_on:
+            type:
+            - boolean
+            - number
+            - string
+            default: true
+          feedback_off:
+            type:
+            - boolean
+            - number
+            - string
+            default: false
+          hold_timeout_ms:
+            type: integer
+            minimum: 300
+            maximum: 2000
+            default: 750
+          minimum:
+            type: number
+            default: 0
+          maximum:
+            type: number
+            default: 1
+          step:
+            type: number
+            exclusiveMinimum: 0
+            default: 0.01
+          value_index:
+            type: integer
+            minimum: 0
+            maximum: 31
+            default: 0
+          span:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 4
+            default: 1
+          release_address:
+            type: string
+            maxLength: 256
+            pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+            default: ''
+          off_address:
+            type: string
+            maxLength: 256
+            pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+            default: ''
+        required:
+        - id
+        - label
+        - address
+        additionalProperties: false
+        allOf:
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: momentary
+          then:
+            required:
+            - release_arguments
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: toggle
+          then:
+            required:
+            - feedback_id
+            - off_arguments
+            properties:
+              feedback_id:
+                minLength: 1
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: slider
+          then:
+            required:
+            - minimum
+            - maximum
+            - step
+            - arguments
+    properties:
+      control:
+        $ref: '#/$defs/control'
+      action:
+        type: string
+        enum:
+        - trigger
+        - press
+        - release
+        - 'on'
+        - 'off'
+        - set
+      value:
+        type: number
+    required:
+    - control
+    additionalProperties: false
+telemetry: []
+dashboard:
+  widgets:
+  - id: osc
+    type: osc
+    label: OSC statuses and buttons
+    commands:
+    - send_osc
+  collapsed:
+  - widget:osc
+  expanded:
+  - network:host
+  - widget:osc
+  hidden_commands:
+  - test_osc
+configuration_schema:
+  type: object
+  x-default-port: 9000
+  $defs:
+    argument:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - i
+          - f
+          - s
+          - T
+          - F
+          - N
+        value:
+          type:
+          - number
+          - string
+          - boolean
+          - 'null'
+      required:
+      - type
+      additionalProperties: false
+      allOf:
+      - if:
+          properties:
+            type:
+              const: i
+        then:
+          required:
+          - value
+          properties:
+            value:
+              type: integer
+              minimum: -2147483648
+              maximum: 2147483647
+      - if:
+          properties:
+            type:
+              const: f
+        then:
+          required:
+          - value
+          properties:
+            value:
+              type: number
+              minimum: -3.4028234e+38
+              maximum: 3.4028234e+38
+      - if:
+          properties:
+            type:
+              const: s
+        then:
+          required:
+          - value
+          properties:
+            value:
+              type: string
+              maxLength: 1000
+              pattern: ^[^\u0000]*$
+    arguments:
+      type: array
+      maxItems: 32
+      items:
+        $ref: '#/$defs/argument'
+      default: []
+    control:
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+          maxLength: 48
+          pattern: ^[a-z][a-z0-9_]*$
+        label:
+          type: string
+          minLength: 1
+          maxLength: 80
+        address:
+          type: string
+          minLength: 1
+          maxLength: 256
+          pattern: ^/[^\s\u0000*?\[\]{}#,]*$
+        collapsed:
+          type: boolean
+          default: true
+        expanded:
+          type: boolean
+          default: true
+        arguments:
+          type: array
+          maxItems: 32
+          items:
+            $ref: '#/$defs/argument'
+          default: []
+        kind:
+          type: string
+          enum:
+          - trigger
+          - momentary
+          - toggle
+          - slider
+          default: trigger
+        release_arguments:
+          $ref: '#/$defs/arguments'
+        off_arguments:
+          $ref: '#/$defs/arguments'
+        feedback_id:
+          type: string
+          maxLength: 48
+          pattern: ^$|^[a-z][a-z0-9_]*$
+          default: ''
+        feedback_on:
+          type:
+          - boolean
+          - number
+          - string
+          default: true
+        feedback_off:
+          type:
+          - boolean
+          - number
+          - string
+          default: false
+        hold_timeout_ms:
+          type: integer
+          minimum: 300
+          maximum: 2000
+          default: 750
+        minimum:
+          type: number
+          default: 0
+        maximum:
+          type: number
+          default: 1
+        step:
+          type: number
+          exclusiveMinimum: 0
+          default: 0.01
+        value_index:
+          type: integer
+          minimum: 0
+          maximum: 31
+          default: 0
+        span:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 4
+          default: 1
+        release_address:
+          type: string
+          maxLength: 256
+          pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+          default: ''
+        off_address:
+          type: string
+          maxLength: 256
+          pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+          default: ''
+      required:
+      - id
+      - label
+      - address
+      additionalProperties: false
+      allOf:
+      - if:
+          required:
+          - kind
+          properties:
+            kind:
+              const: momentary
+        then:
+          required:
+          - release_arguments
+      - if:
+          required:
+          - kind
+          properties:
+            kind:
+              const: toggle
+        then:
+          required:
+          - feedback_id
+          - off_arguments
+          properties:
+            feedback_id:
+              minLength: 1
+      - if:
+          required:
+          - kind
+          properties:
+            kind:
+              const: slider
+        then:
+          required:
+          - minimum
+          - maximum
+          - step
+          - arguments
+  properties:
+    receive_port:
+      type: integer
+      title: Status receive UDP port
+      minimum: 0
+      maximum: 65535
+      default: 9001
+    bind_host:
+      type: string
+      title: Receiver bind address
+      default: 0.0.0.0
+      format: ipv4
+      maxLength: 15
+    query_interval:
+      type: number
+      title: OSC query interval (s)
+      minimum: 0.25
+      maximum: 3600
+      default: 2
+    statuses:
+      type: array
+      title: OSC statuses
+      maxItems: 64
+      x-ui-editor: osc-statuses
+      items:
+        type: object
+        properties:
+          id: &id001
+            type: string
+            minLength: 1
+            maxLength: 48
+            pattern: ^[a-z][a-z0-9_]*$
+          label: &id002
+            type: string
+            minLength: 1
+            maxLength: 80
+          address: &id003
+            type: string
+            minLength: 1
+            maxLength: 256
+            pattern: ^/[^\s\u0000*?\[\]{}#,]*$
+          collapsed: &id004
+            type: boolean
+            default: true
+          expanded: &id005
+            type: boolean
+            default: true
+          argument_index:
+            type: integer
+            minimum: 0
+            maximum: 31
+            default: 0
+          value_type:
+            type: string
+            enum:
+            - number
+            - string
+            - boolean
+            default: number
+          unit:
+            type: string
+            maxLength: 20
+            default: ''
+          query_address:
+            type: string
+            maxLength: 256
+            pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+            default: ''
+          query_arguments: &id006
+            type: array
+            maxItems: 32
+            items:
+              $ref: '#/$defs/argument'
+            default: []
+          display:
+            type: string
+            enum:
+            - status
+            - meter_vertical
+            - meter_horizontal
+            default: status
+          minimum:
+            type: number
+            default: 0
+          maximum:
+            type: number
+            default: 100
+          color_mode:
+            type: string
+            enum:
+            - audio
+            - rf
+            - plain
+            default: audio
+          span:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 4
+            default: 1
+        required:
+        - id
+        - label
+        - address
+        - value_type
+        additionalProperties: false
+        allOf:
+        - if:
+            required:
+            - display
+            properties:
+              display:
+                enum:
+                - meter_vertical
+                - meter_horizontal
+          then:
+            properties:
+              value_type:
+                const: number
+            required:
+            - minimum
+            - maximum
+      default:
+      - id: playing
+        label: Playing
+        address: /status/playing
+        value_type: boolean
+      - id: level
+        label: Level
+        address: /status/level
+        value_type: number
+        unit: dBFS
+      x-ui-group: mapping
+    buttons:
+      type: array
+      title: OSC buttons
+      maxItems: 64
+      x-ui-editor: osc-buttons
+      items:
+        type: object
+        properties:
+          id: *id001
+          label: *id002
+          address: *id003
+          collapsed: *id004
+          expanded: *id005
+          arguments: *id006
+          kind:
+            type: string
+            enum:
+            - trigger
+            - momentary
+            - toggle
+            - slider
+            default: trigger
+          release_arguments:
+            $ref: '#/$defs/arguments'
+          off_arguments:
+            $ref: '#/$defs/arguments'
+          feedback_id:
+            type: string
+            maxLength: 48
+            pattern: ^$|^[a-z][a-z0-9_]*$
+            default: ''
+          feedback_on:
+            type:
+            - boolean
+            - number
+            - string
+            default: true
+          feedback_off:
+            type:
+            - boolean
+            - number
+            - string
+            default: false
+          hold_timeout_ms:
+            type: integer
+            minimum: 300
+            maximum: 2000
+            default: 750
+          minimum:
+            type: number
+            default: 0
+          maximum:
+            type: number
+            default: 1
+          step:
+            type: number
+            exclusiveMinimum: 0
+            default: 0.01
+          value_index:
+            type: integer
+            minimum: 0
+            maximum: 31
+            default: 0
+          span:
+            type: integer
+            enum:
+            - 1
+            - 2
+            - 4
+            default: 1
+          release_address:
+            type: string
+            maxLength: 256
+            pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+            default: ''
+          off_address:
+            type: string
+            maxLength: 256
+            pattern: ^(|/[^\s\u0000*?\[\]{}#,]*)$
+            default: ''
+        required:
+        - id
+        - label
+        - address
+        additionalProperties: false
+        allOf:
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: momentary
+          then:
+            required:
+            - release_arguments
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: toggle
+          then:
+            required:
+            - feedback_id
+            - off_arguments
+            properties:
+              feedback_id:
+                minLength: 1
+        - if:
+            required:
+            - kind
+            properties:
+              kind:
+                const: slider
+          then:
+            required:
+            - minimum
+            - maximum
+            - step
+            - arguments
+      default:
+      - id: play
+        label: PLAY
+        address: /transport/play
+        arguments: []
+      - id: stop
+        label: STOP
+        address: /transport/stop
+        arguments: []
+      x-ui-group: mapping
+  additionalProperties: false
+  x-mapping-editor: osc
+  x-mapping-fields:
+  - statuses
+  - buttons

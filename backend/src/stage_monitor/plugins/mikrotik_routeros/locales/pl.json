@@ -1,0 +1,21 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Allow HTTP on a trusted network (unencrypted password)": "Zezwól na HTTP w zaufanej sieci (hasło bez szyfrowania)",
+    "CPU": "CPU",
+    "Free memory": "Wolna pamięć",
+    "HTTPS CA file (optional)": "Plik CA dla HTTPS (opcjonalnie)",
+    "Interfaces": "Interfejsy",
+    "Interfaces UP": "Interfejsy UP",
+    "Password environment variable": "Zmienna z hasłem",
+    "RouterOS password": "Hasło RouterOS",
+    "RouterOS username": "Login RouterOS",
+    "SFP 1": "SFP 1",
+    "SFP 2": "SFP 2",
+    "Temperature": "Temperatura",
+    "Total RX": "Łącznie RX",
+    "Total TX": "Łącznie TX",
+    "Total memory": "Pamięć całkowita",
+    "Uptime": "Czas pracy"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Artist": "Wykonawca",
+    "Key index": "Indeks tonacji",
+    "Loop": "Pętla",
+    "Master": "Master",
+    "Minimum update interval (ms)": "Minimalny odstęp aktualizacji (ms)",
+    "Monitored layers": "Warstwy odczytywane",
+    "Playing": "Odtwarzanie",
+    "Synchronizing": "Synchronizacja",
+    "Tempo": "Tempo",
+    "Track": "Utwór",
+    "Track loaded": "Wczytano utwór"
+  }
+}

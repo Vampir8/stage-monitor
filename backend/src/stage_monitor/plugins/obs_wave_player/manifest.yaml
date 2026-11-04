@@ -1,0 +1,250 @@
+{
+  "plugin_id": "obs.wave_player",
+  "plugin_version": "1.1.0",
+  "plugin_api_version": "1.2",
+  "entrypoint": "stage_monitor.plugins.obs_wave_player.plugin:WavePlayerPlugin",
+  "manufacturer": "OBS Wave Player",
+  "model": "MP3 Network Player",
+  "supported_protocols": [
+    "http"
+  ],
+  "communication_mode": "hybrid",
+  "capabilities": [
+    {
+      "id": "audio.playback",
+      "writable": true
+    }
+  ],
+  "commands": [
+    {
+      "name": "play",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "pause",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "stop",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "previous",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": false,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "next",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": false,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "seek",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "title": "Position (seconds)",
+            "minimum": 0,
+            "maximum": 86400
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "volume",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "title": "Volume (0–1)",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "mode",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Mode",
+            "enum": [
+              "single",
+              "continuous"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "select_group",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": true,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Group ID",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "select_track",
+      "capability_id": "audio.playback",
+      "timeout_seconds": 35,
+      "idempotent": false,
+      "parameters_schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Track ID",
+            "minLength": 1,
+            "maxLength": 120
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "telemetry": [
+    {
+      "key": "audio.level",
+      "title": "RMS",
+      "value_type": "number",
+      "unit": "dBFS",
+      "minimum": -60,
+      "maximum": 0
+    },
+    {
+      "key": "audio.peak",
+      "title": "Peak",
+      "value_type": "number",
+      "unit": "dBFS",
+      "minimum": -60,
+      "maximum": 0
+    },
+    {
+      "key": "player.bpm",
+      "title": "Tempo",
+      "value_type": "number",
+      "unit": "BPM"
+    }
+  ],
+  "dashboard": {
+    "widgets": [
+      {
+        "id": "player",
+        "type": "wave-player",
+        "label": "MP3 player",
+        "commands": [
+          "play",
+          "pause",
+          "stop",
+          "previous",
+          "next",
+          "seek",
+          "volume",
+          "mode",
+          "select_group",
+          "select_track"
+        ]
+      }
+    ],
+    "collapsed": [
+      "widget:player",
+      "meter:audio.level"
+    ],
+    "expanded": [
+      "network:host",
+      "widget:player",
+      "metric:player.bpm",
+      "meter:audio.level",
+      "metric:audio.peak"
+    ]
+  },
+  "configuration_schema": {
+    "type": "object",
+    "x-default-port": 8765,
+    "x-credential-label": "OBS Wave Player connection key (Windows vault)",
+    "properties": {},
+    "additionalProperties": false
+  }
+}

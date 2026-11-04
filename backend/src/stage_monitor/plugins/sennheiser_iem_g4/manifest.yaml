@@ -1,0 +1,58 @@
+plugin_id: sennheiser.iem_g4
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.sennheiser_iem_g4.plugin:IEMG4Plugin
+manufacturer: Sennheiser
+model: SR IEM G4
+supported_protocols:
+- udp
+communication_mode: polling
+shared_udp_port: 53212
+capabilities:
+- id: audio.monitoring
+- id: rf.frequency
+commands: []
+telemetry:
+- key: audio.level
+  title: AF
+  value_type: number
+  unit: '%'
+  minimum: 0
+  maximum: 100
+- key: audio.peak
+  title: AF peak
+  value_type: number
+  unit: '%'
+  minimum: 0
+  maximum: 100
+configuration_schema:
+  type: object
+  x-default-port: 53212
+  properties:
+    request_timeout:
+      type: number
+      title: Response timeout (s)
+      minimum: 0.5
+      maximum: 3
+      default: 2
+  additionalProperties: false
+dashboard:
+  collapsed:
+  - network:host
+  - parameter:channel_name
+  - parameter:frequency_mhz
+  - parameter:mute
+  - metric:audio.level
+  - meter:audio.level
+  - history:audio.level
+  expanded:
+  - network:host
+  - parameter:channel_name
+  - parameter:frequency_mhz
+  - parameter:mute
+  - parameter:mode
+  - parameter:sensitivity_db
+  - metric:audio.level
+  - metric:audio.peak
+  - meter:audio.level
+  - history:audio.level

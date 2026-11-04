@@ -1,0 +1,105 @@
+/* Electric Bloom: vivid fuchsia, electric violet and deep plum, without chrome. */
+:root[data-theme="rose"]{
+  --font-ui:"Segoe UI",Arial,sans-serif;
+  --text:#fff1fc;--muted:#d8b8e9;--line:transparent;
+  --green:#43e3be;--blue:#ba86ff;--purple:#ff63c4;
+  --orange:#ffb36e;--teal:#65d9ef;--yellow:#ffd478;--red:#ff8187;
+  color-scheme:dark;
+}
+[data-theme="rose"] body{font-family:var(--font-ui);background:#10091b}
+[data-theme="rose"] :is(.topbar,.backend-bar){border-radius:2px;background:#261333;border-color:transparent;box-shadow:none;backdrop-filter:none}
+[data-theme="rose"] :is(.topbar button,.btn,.expand-toggle,.chat-tab,.chat-send,.chat-user){
+  border-radius:2px;border:1px solid transparent;background:#4a215a;color:#fff1fc;box-shadow:none;transform:none;
+}
+[data-theme="rose"] :is(.topbar button,.btn,.expand-toggle,.chat-tab,.chat-send):hover:not(:disabled){background:#713078;border-color:transparent;box-shadow:none;transform:none}
+[data-theme="rose"] :is(.topbar button.active,.btn.is-active,.btn.active,.expand-toggle.active,.chat-tab.active){background:#ff53b5;color:#210b25;border-color:transparent;box-shadow:none}
+[data-theme="rose"] :is(button,input,select,textarea):focus-visible{outline:2px solid #ffb4e0;outline-offset:2px}
+[data-theme="rose"] :is(.card,.live-device,.weather-live,.network-card){border-radius:2px;background:#30143e;border-color:transparent;box-shadow:none}
+[data-theme="rose"] .card::before{box-shadow:none}
+[data-theme="rose"] .live-device .header{background:#1d0e2c;border-bottom:3px solid var(--scroll-color,var(--orange));padding-bottom:5px;box-shadow:none}
+[data-theme="rose"] .live-device .title{color:#fff;font-weight:700;text-shadow:none;letter-spacing:.02em}
+[data-theme="rose"] .live-device :is(.subtitle,.telemetry-time,.weather-health){color:#d8b8e9}
+[data-theme="rose"] .divider{background:#603768;box-shadow:none}
+[data-theme="rose"] :is(.info-row,.live-trace,.chat-stat,.chat-preview-item,.crs-port){border-radius:2px;background:#180d25;border:1px solid transparent;box-shadow:none}
+[data-theme="rose"] .info-label{color:#d8b8e9;letter-spacing:.06em}
+[data-theme="rose"] .info-value{color:#ffe2f5;font-variant-numeric:tabular-nums}
+[data-theme="rose"] :is(.history-title,.trace-note){color:#d8b8e9}
+[data-theme="rose"] .status{border-radius:2px;background:#180d25;border-color:transparent}
+[data-theme="rose"] .status .dot{border-radius:1px;box-shadow:none}
+[data-theme="rose"] .live-meters{background:#21102f;border-radius:2px;border:1px solid transparent}
+[data-theme="rose"] .meter-track{border-radius:0;background:#11091d;border:1px solid transparent;box-shadow:none}
+[data-theme="rose"] .meter-fill{border-radius:0;box-shadow:none}
+[data-theme="rose"] .meter-fill.green-fill{background:#43e3be}
+[data-theme="rose"] .meter-fill.blue-fill{background:#ba86ff}
+[data-theme="rose"] .meter-fill.purple-fill{background:#ff63c4}
+[data-theme="rose"] .meter-track::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(to top,transparent 0,transparent 5px,#11091d 5px,#11091d 6px)}
+[data-theme="rose"] :is(.meter-value-top,.meter-head){color:#ffe2f5;font-variant-numeric:tabular-nums}
+[data-theme="rose"] .trace-plot{background-color:#10081a;background-image:linear-gradient(#78909f24 1px,transparent 1px),linear-gradient(90deg,#78909f24 1px,transparent 1px);background-size:18px 18px}
+[data-theme="rose"] :is(.weather-map,.live-preview,.widget-ptz,.camera-joystick){border-radius:2px;border-color:transparent;background-color:#180d25}
+[data-theme="rose"] :is(.chat-messages,.chat-tabs,.chat-users,.chat-compose){border-color:transparent}
+[data-theme="rose"] .message-bubble{border-radius:2px;background:#241331;border-color:transparent;color:#fff1fc}
+[data-theme="rose"] .chat-message.mine .message-bubble{border-radius:2px;background:#582151;border-color:transparent;color:#ffe2f5}
+[data-theme="rose"] .avatar{border-radius:2px;background:#ff53b5;color:#210b25;box-shadow:none}
+[data-theme="rose"] .chat-online-dot{box-shadow:none}
+[data-theme="rose"] :is(.chat-preview,.chat-compact,.chat-stat-grid,.active-alert-item,.alert-row,.chat-alarm-notice){border-radius:2px}
+[data-theme="rose"] .active-alert-item{background:#501d2c;border-color:#ff8187}
+[data-theme="rose"] .alert-status-resolved{background:#12382f}
+[data-theme="rose"] .settings-dialog{border-radius:0;background:#291336;border:1px solid transparent;box-shadow:none}
+[data-theme="rose"] .pinned-heading-dialog>.settings-heading{background:#492053;border-bottom:2px solid #ff53b5}
+[data-theme="rose"] .settings-heading h2{font-size:20px;letter-spacing:.02em}
+[data-theme="rose"] :is(.settings-dialog,.live-controls,.chat-compose) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea){border-radius:2px;background:#180d25;border-color:transparent;color:#fff1fc;box-shadow:none}
+[data-theme="rose"] :is(input[type="checkbox"],input[type="radio"],input[type="range"]){accent-color:#ff53b5}
+[data-theme="rose"] .settings-dialog :is(label,.settings-help,.alerts-help){color:#e5cceb}
+[data-theme="rose"] .settings-dialog :is(h3,legend){color:#ffe2f5}
+[data-theme="rose"] .settings-dialog .device-delete{background:#501d2c;color:#ffbdc0;border-color:#ff8187}
+[data-theme="rose"] .settings-dialog .device-delete:hover{background:#6a293b}
+[data-theme="rose"] .dashboard-clock{background:#180d25;border:1px solid transparent;border-radius:2px}
+[data-theme="rose"] :is(.dashboard-clock-time,.dashboard-clock-date){color:#ffe2f5}
+[data-theme="rose"] .dashboard-center{scrollbar-color:#bd71bf #180d25}
+[data-theme="rose"] .dashboard-center::-webkit-scrollbar-thumb{background:#bd71bf;border-radius:0}
+[data-theme="rose"] .live-device::-webkit-scrollbar-thumb,[data-theme="rose"] .live-device *::-webkit-scrollbar-thumb{border-radius:0}
+
+/* Keep the existing spacing, with surfaces instead of decorative outlines. */
+[data-theme="rose"] .card .btn,
+[data-theme="rose"] .card .btn:hover:not(:disabled),
+[data-theme="rose"] .card .btn.is-active,
+[data-theme="rose"] .topbar button,
+[data-theme="rose"] .topbar button.active{border-color:transparent;box-shadow:none}
+
+/* Square corners throughout this skin, including shared dialog widgets. */
+[data-theme="rose"] body :is(.card,.card *,.topbar,.topbar *,.backend-bar,.backend-bar *,.settings-dialog,.settings-dialog *,.live-notice){border-radius:0!important}
+
+/* Jewel-toned strips, with saturated accents on dark, readable surfaces. */
+[data-theme="rose"] .live-device.green{background:#19283a}
+[data-theme="rose"] .live-device.purple{background:#3a1648}
+[data-theme="rose"] .live-device.orange{background:#3b203b}
+[data-theme="rose"] .live-device.weather-live{background:#291c48}
+[data-theme="rose"] .live-device.chat-live{background:#3c193e}
+[data-theme="rose"] .live-device .title{color:#ffa8dd;font-weight:800;letter-spacing:.04em}
+[data-theme="rose"] .live-device.green .title{color:#84f4d7}
+[data-theme="rose"] .live-device.orange .title{color:#ffcc9e}
+[data-theme="rose"] .live-device.weather-live .title{color:#c9b0ff}
+[data-theme="rose"] .live-device .header{border-bottom:3px solid #ff53b5}
+[data-theme="rose"] .live-device.green .header{border-color:#43e3be}
+[data-theme="rose"] .live-device.orange .header{border-color:#ffb36e}
+[data-theme="rose"] .live-device.weather-live .header{border-color:#ba86ff}
+[data-theme="rose"] .simulation-badge{color:#ffd478}
+[data-theme="rose"] .live-device .status.ok{background:#123a31;color:#7af5cc}
+[data-theme="rose"] .live-device .status.warn{background:#50350e;color:#ffe2a0}
+[data-theme="rose"] .live-device .status.error{background:#641c2b;color:#ffd5d8}
+[data-theme="rose"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn){background:#4a215a!important;color:#fff1fc!important;border-color:transparent!important}
+[data-theme="rose"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn):hover{background:#713078!important}
+[data-theme="rose"] .topbar :is(.chat-topbar-btn,.weather-topbar-btn).active{background:#ff53b5!important;color:#210b25!important}
+[data-theme="rose"] .topbar button.active:hover{background:#ff86ce;color:#210b25}
+[data-theme="rose"] .live-device .live-controls .btn.is-active{background:#ff53b5;color:#210b25}
+[data-theme="rose"] .dashboard-clock{background:#180d25}
+[data-theme="rose"] :is(.dashboard-clock-time,.dashboard-clock-date){color:#ff8fd5}
+[data-theme="rose"] .chat-live .chat-preview-text{color:#ffe2f5}
+[data-theme="rose"] .live-notice{background:#492053;color:#fff1fc}
+[data-theme="rose"] :is(.health-tile,.health-device,.topology-node,.dependency-editor,.service-values>div){background:#180d25;border-color:transparent;color:#fff1fc}
+[data-theme="rose"] :is(.health-note,.alerts-help,.settings-help,.settings-dialog small,.health-category>span:last-child,.health-device summary>span:last-child,.health-device p,.health-tile span){color:#d8b8e9}
+[data-theme="rose"] .active-alert-item{background:#501d2c;color:#ffd5d8;border-left:3px solid #ff8187}
+[data-theme="rose"] .alert-row:is(.alert-status-active,.alert-status-acknowledged){background:#501d2c;--alert-color:#ffbdc0}
+[data-theme="rose"] .alert-row.alert-status-resolved{background:#12382f;--alert-color:#7af5cc}
+[data-theme="rose"] .chat-alarm-notice{background:#501d2c;color:#ffd5d8}
+[data-theme="rose"] .chat-alarm-notice.resolved{background:#12382f;color:#7af5cc}

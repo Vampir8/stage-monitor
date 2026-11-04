@@ -1,0 +1,16 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Artist": "Artist",
+    "Key index": "Key index",
+    "Loop": "Loop",
+    "Master": "Master",
+    "Minimum update interval (ms)": "Minimum update interval (ms)",
+    "Monitored layers": "Monitored layers",
+    "Playing": "Playing",
+    "Synchronizing": "Synchronizing",
+    "Tempo": "Tempo",
+    "Track": "Track",
+    "Track loaded": "Track loaded"
+  }
+}

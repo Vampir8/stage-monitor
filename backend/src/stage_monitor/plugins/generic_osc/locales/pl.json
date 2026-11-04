@@ -1,0 +1,15 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Level": "Poziom",
+    "OSC buttons": "Przyciski OSC",
+    "OSC query interval (s)": "Odstęp zapytań OSC (s)",
+    "OSC statuses": "Statusy OSC",
+    "OSC statuses and buttons": "Statusy i przyciski OSC",
+    "PLAY": "PLAY",
+    "Playing": "Odtwarzanie",
+    "Receiver bind address": "Adres lokalny odbiornika",
+    "STOP": "STOP",
+    "Status receive UDP port": "Port UDP odbioru statusów"
+  }
+}

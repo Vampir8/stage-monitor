@@ -1,0 +1,80 @@
+plugin_id: denon.sc6000
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.denon_sc6000.plugin:SC6000Plugin
+manufacturer: Denon DJ
+model: SC6000
+supported_protocols:
+- udp
+communication_mode: hybrid
+shared_udp_port: 51337
+shared_udp_match_host: true
+capabilities:
+- id: player.monitoring
+  writable: false
+commands: []
+telemetry:
+- key: player.bpm
+  title: Tempo
+  value_type: number
+  unit: BPM
+- key: player.playing
+  title: Playing
+  value_type: boolean
+- key: player.title
+  title: Track
+  value_type: string
+- key: player.artist
+  title: Artist
+  value_type: string
+- key: player.loaded
+  title: Track loaded
+  value_type: boolean
+- key: player.key_index
+  title: Key index
+  value_type: number
+- key: player.sync
+  title: Synchronizing
+  value_type: boolean
+- key: player.master
+  title: Master
+  value_type: boolean
+- key: player.loop
+  title: Loop
+  value_type: boolean
+dashboard:
+  collapsed:
+  - metric:player.title
+  - metric:player.artist
+  - metric:player.bpm
+  - metric:player.playing
+  expanded:
+  - network:host
+  - metric:player.title
+  - metric:player.artist
+  - metric:player.bpm
+  - metric:player.playing
+  - metric:player.loaded
+  - metric:player.key_index
+  - metric:player.sync
+  - metric:player.master
+  - metric:player.loop
+configuration_schema:
+  type: object
+  x-default-port: 51337
+  properties:
+    layers:
+      type: string
+      title: Monitored layers
+      enum:
+      - both
+      - A
+      - B
+      default: both
+    update_interval_ms:
+      type: integer
+      title: Minimum update interval (ms)
+      minimum: 100
+      maximum: 2000
+      default: 250
+  additionalProperties: false

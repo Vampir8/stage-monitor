@@ -1,0 +1,180 @@
+{
+  "source": "https://www.empro.phoenixcontact.com/wbm/v1/eem-ma370/v1.7.1/static/js/app.1856.js",
+  "source_sha256": "f39095d3bc3a6fbb89d1a3a97abdc774f61f5b36213d05801b66fb425954f71f",
+  "registers": [
+    {
+      "address": 32768,
+      "count": 2,
+      "symbol": "U12",
+      "unit": "V"
+    },
+    {
+      "address": 32770,
+      "count": 2,
+      "symbol": "U23",
+      "unit": "V"
+    },
+    {
+      "address": 32772,
+      "count": 2,
+      "symbol": "U31",
+      "unit": "V"
+    },
+    {
+      "address": 32774,
+      "count": 2,
+      "symbol": "U1",
+      "unit": "V"
+    },
+    {
+      "address": 32776,
+      "count": 2,
+      "symbol": "U2",
+      "unit": "V"
+    },
+    {
+      "address": 32778,
+      "count": 2,
+      "symbol": "U3",
+      "unit": "V"
+    },
+    {
+      "address": 32780,
+      "count": 2,
+      "symbol": "F",
+      "unit": "Hz"
+    },
+    {
+      "address": 32782,
+      "count": 2,
+      "symbol": "I1",
+      "unit": "A"
+    },
+    {
+      "address": 32784,
+      "count": 2,
+      "symbol": "I2",
+      "unit": "A"
+    },
+    {
+      "address": 32786,
+      "count": 2,
+      "symbol": "I3",
+      "unit": "A"
+    },
+    {
+      "address": 32788,
+      "count": 2,
+      "symbol": "IN",
+      "unit": "A"
+    },
+    {
+      "address": 32790,
+      "count": 2,
+      "symbol": "P",
+      "unit": "W"
+    },
+    {
+      "address": 32792,
+      "count": 2,
+      "symbol": "Q",
+      "unit": "var"
+    },
+    {
+      "address": 32794,
+      "count": 2,
+      "symbol": "S",
+      "unit": "VA"
+    },
+    {
+      "address": 32796,
+      "count": 2,
+      "symbol": "PF",
+      "unit": "-"
+    },
+    {
+      "address": 32798,
+      "count": 2,
+      "symbol": "P1",
+      "unit": "W"
+    },
+    {
+      "address": 32800,
+      "count": 2,
+      "symbol": "P2",
+      "unit": "W"
+    },
+    {
+      "address": 32802,
+      "count": 2,
+      "symbol": "P3",
+      "unit": "W"
+    },
+    {
+      "address": 32804,
+      "count": 2,
+      "symbol": "Q1",
+      "unit": "var"
+    },
+    {
+      "address": 32806,
+      "count": 2,
+      "symbol": "Q2",
+      "unit": "var"
+    },
+    {
+      "address": 32808,
+      "count": 2,
+      "symbol": "Q3",
+      "unit": "var"
+    },
+    {
+      "address": 32810,
+      "count": 2,
+      "symbol": "S1",
+      "unit": "VA"
+    },
+    {
+      "address": 32812,
+      "count": 2,
+      "symbol": "S2",
+      "unit": "VA"
+    },
+    {
+      "address": 32814,
+      "count": 2,
+      "symbol": "S3",
+      "unit": "VA"
+    },
+    {
+      "address": 32816,
+      "count": 2,
+      "symbol": "PF1",
+      "unit": "-"
+    },
+    {
+      "address": 32818,
+      "count": 2,
+      "symbol": "PF2",
+      "unit": "-"
+    },
+    {
+      "address": 32820,
+      "count": 2,
+      "symbol": "PF3",
+      "unit": "-"
+    },
+    {
+      "address": 33024,
+      "count": 2,
+      "symbol": "Ea+t",
+      "unit": "Wh"
+    },
+    {
+      "address": 33030,
+      "count": 2,
+      "symbol": "Ea-t",
+      "unit": "Wh"
+    }
+  ]
+}

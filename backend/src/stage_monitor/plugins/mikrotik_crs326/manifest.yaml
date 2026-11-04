@@ -1,0 +1,139 @@
+plugin_id: mikrotik.crs326
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.mikrotik_crs326.plugin:CRS326Plugin
+manufacturer: MikroTik
+model: CRS326-24G-2S+ (RouterOS)
+supported_protocols:
+- http
+- https
+communication_mode: polling
+capabilities:
+- id: network.monitoring
+  writable: false
+- id: network.port_status
+  writable: false
+commands: []
+telemetry:
+- key: system.cpu_percent
+  title: CPU
+  value_type: number
+  unit: '%'
+- key: system.memory_free
+  title: Free memory
+  value_type: number
+  unit: B
+- key: system.memory_total
+  title: Total memory
+  value_type: number
+  unit: B
+- key: system.uptime
+  title: Uptime
+  value_type: string
+- key: temperature
+  title: Temperature
+  value_type: number
+  unit: degC
+- key: network.ports_total
+  title: Ports
+  value_type: number
+- key: network.ports_up
+  title: Ports UP
+  value_type: number
+- key: network.ports_summary
+  title: Ports UP
+  value_type: string
+- key: network.sfp1_status
+  title: SFP+ 1
+  value_type: string
+- key: network.sfp2_status
+  title: SFP+ 2
+  value_type: string
+- key: network.rx_bps
+  title: Total RX
+  value_type: number
+  unit: bit/s
+- key: network.tx_bps
+  title: Total TX
+  value_type: number
+  unit: bit/s
+- key: network.port_up
+  title: Port link
+  value_type: boolean
+- key: network.port_disabled
+  title: Port disabled
+  value_type: boolean
+- key: network.port_rate
+  title: Port speed
+  value_type: string
+- key: network.port_rx_bps
+  title: Port RX
+  value_type: number
+  unit: bit/s
+- key: network.port_tx_bps
+  title: Port TX
+  value_type: number
+  unit: bit/s
+- key: network.port_rx_errors
+  title: RX errors
+  value_type: number
+- key: network.port_tx_errors
+  title: TX errors
+  value_type: number
+- key: network.port_link_downs
+  title: Link drops
+  value_type: number
+dashboard:
+  collapsed:
+  - network:host
+  - metric:system.cpu_percent
+  - metric:temperature
+  - metric:system.uptime
+  - metric:network.ports_summary
+  - metric:network.sfp1_status
+  - metric:network.sfp2_status
+  - metric:network.rx_bps
+  - metric:network.tx_bps
+  - history:network.rx_bps
+  expanded:
+  - network:host
+  - metric:system.cpu_percent
+  - metric:temperature
+  - metric:system.uptime
+  - metric:system.memory_free
+  - metric:network.ports_up
+  - metric:network.ports_total
+  - metric:network.rx_bps
+  - metric:network.tx_bps
+  - widget:ports
+  - history:network.rx_bps
+  - history:network.tx_bps
+  widgets:
+  - id: ports
+    type: network-ports
+    label: Ethernet / SFP+ ports
+configuration_schema:
+  type: object
+  x-credential-label: RouterOS password
+  x-default-port: 80
+  properties:
+    username:
+      type: string
+      title: RouterOS username
+      default: admin
+      minLength: 1
+      maxLength: 120
+    password_env:
+      type: string
+      title: Password environment variable
+      default: STAGE_CRS_PASSWORD
+      pattern: ^STAGE_[A-Z0-9_]{1,100}$
+    allow_plain_http:
+      type: boolean
+      title: Allow HTTP on a trusted network (unencrypted password)
+      default: false
+    ca_file:
+      type: string
+      title: HTTPS CA file (optional)
+      maxLength: 1024
+  additionalProperties: false

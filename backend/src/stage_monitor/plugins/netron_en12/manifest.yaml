@@ -1,0 +1,104 @@
+plugin_id: netron.en12
+plugin_version: 0.2.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.netron_en12.plugin:EN12Plugin
+manufacturer: Obsidian Control Systems
+model: NETRON EN12
+supported_protocols:
+- http
+- udp
+communication_mode: polling
+capabilities:
+- id: gateway.monitoring
+  writable: false
+- id: dmx.port_status
+  writable: false
+commands: []
+telemetry:
+- key: gateway.reported_ports
+  title: Reported ports
+  value_type: number
+- key: gateway.active_outputs
+  title: Active DMX outputs
+  value_type: number
+- key: gateway.port_errors
+  title: Port errors
+  value_type: number
+- key: gateway.firmware_revision
+  title: Art-Net firmware revision
+  value_type: number
+- key: gateway.configured_outputs
+  title: Configured outputs
+  value_type: number
+- key: gateway.uptime
+  title: Uptime
+  value_type: string
+- key: dmx.mode
+  title: Port mode
+  value_type: string
+- key: dmx.configured_framerate_hz
+  title: Configured DMX frequency
+  value_type: number
+  unit: Hz
+- key: dmx.rdm_enabled
+  title: RDM enabled
+  value_type: boolean
+- key: dmx.input_universe
+  title: Input universe (from 0)
+  value_type: number
+- key: dmx.output_universe
+  title: Output universe (from 0)
+  value_type: number
+- key: dmx.input_active
+  title: Input data
+  value_type: boolean
+- key: dmx.output_active
+  title: Output data
+  value_type: boolean
+- key: dmx.input_error
+  title: Input error
+  value_type: boolean
+- key: dmx.output_short
+  title: Output short circuit
+  value_type: boolean
+- key: dmx.merging
+  title: Merge active
+  value_type: boolean
+- key: dmx.input_protocol
+  title: Input protocol
+  value_type: string
+- key: dmx.output_protocol
+  title: Output protocol
+  value_type: string
+dashboard:
+  collapsed:
+  - network:host
+  - metric:gateway.reported_ports
+  - metric:gateway.configured_outputs
+  - metric:gateway.active_outputs
+  - metric:gateway.port_errors
+  - metric:gateway.uptime
+  expanded:
+  - network:host
+  - metric:gateway.reported_ports
+  - metric:gateway.configured_outputs
+  - metric:gateway.active_outputs
+  - metric:gateway.port_errors
+  - metric:gateway.firmware_revision
+  - metric:gateway.uptime
+  - metric:dmx.output_universe
+  - metric:dmx.mode
+  - metric:dmx.output_active
+  - metric:dmx.output_protocol
+  - metric:dmx.output_short
+configuration_schema:
+  type: object
+  x-default-port: 80
+  properties:
+    response_window:
+      type: number
+      title: ArtPoll response window (s)
+      minimum: 1.1
+      maximum: 3
+      default: 3
+  additionalProperties: false

@@ -1,0 +1,9 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Temperature": "Temperature",
+    "Humidity": "Humidity",
+    "Status endpoint": "Status endpoint",
+    "Enable output control": "Enable output control"
+  }
+}

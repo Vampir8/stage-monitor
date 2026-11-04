@@ -1,0 +1,11 @@
+{
+  "api_version": 1,
+  "messages": {
+    "RTSP password (Windows vault)": "RTSP password (Windows vault)",
+    "RTSP path (e.g. /Streaming/Channels/101)": "RTSP path (e.g. /Streaming/Channels/101)",
+    "RTSP port": "RTSP port",
+    "RTSP preview": "RTSP preview",
+    "RTSP username (empty for unauthenticated streams)": "RTSP username (empty for unauthenticated streams)",
+    "Video preview — FPS limit": "Video preview — FPS limit"
+  }
+}

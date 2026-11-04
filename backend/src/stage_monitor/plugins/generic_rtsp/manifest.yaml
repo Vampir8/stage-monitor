@@ -1,0 +1,59 @@
+plugin_id: generic.rtsp
+plugin_version: 1.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.generic_rtsp.plugin:GenericRTSPPlugin
+manufacturer: Generic
+model: RTSP Camera
+supported_protocols:
+- tcp
+communication_mode: polling
+capabilities:
+- id: camera.video
+  writable: false
+commands: []
+telemetry:
+- key: camera.rtsp_reachable
+  title: RTSP port
+  value_type: boolean
+dashboard:
+  widgets:
+  - id: video
+    type: video
+    label: RTSP preview
+    commands: []
+  collapsed:
+  - network:host
+  - metric:camera.rtsp_reachable
+  expanded:
+  - network:host
+  - metric:camera.rtsp_reachable
+  - widget:video
+configuration_schema:
+  type: object
+  x-default-port: 554
+  x-credential-label: RTSP password (Windows vault)
+  properties:
+    video_fps:
+      type: integer
+      title: Video preview — FPS limit
+      enum:
+      - 15
+      - 25
+      - 30
+      - 50
+      - 60
+      default: 15
+    rtsp_path:
+      type: string
+      title: RTSP path (e.g. /Streaming/Channels/101)
+      default: /
+      pattern: ^/[^\r\n#]*$
+      maxLength: 1000
+    username:
+      type: string
+      title: RTSP username (empty for unauthenticated streams)
+      default: ''
+      maxLength: 100
+  required:
+  - rtsp_path
+  additionalProperties: false

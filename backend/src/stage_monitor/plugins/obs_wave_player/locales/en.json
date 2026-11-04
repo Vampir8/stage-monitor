@@ -1,0 +1,15 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Group ID": "Group ID",
+    "MP3 player": "MP3 player",
+    "Mode": "Mode",
+    "OBS Wave Player connection key (Windows vault)": "OBS Wave Player connection key (Windows vault)",
+    "Peak": "Peak",
+    "Position (seconds)": "Position (seconds)",
+    "RMS": "RMS",
+    "Tempo": "Tempo",
+    "Track ID": "Track ID",
+    "Volume (0–1)": "Volume (0–1)"
+  }
+}

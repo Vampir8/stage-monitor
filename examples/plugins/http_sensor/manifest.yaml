@@ -1,0 +1,45 @@
+plugin_id: example.http_sensor
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: plugin:HTTPSensorPlugin
+manufacturer: Example
+model: HTTP environmental sensor
+supported_protocols: [http, https]
+communication_mode: polling
+capabilities:
+  - id: environment.monitoring
+    writable: false
+  - id: environment.output
+    writable: true
+commands:
+  - name: set_output
+    capability_id: environment.output
+    idempotent: true
+    parameters_schema:
+      type: object
+      properties:
+        enabled: {type: boolean}
+      required: [enabled]
+      additionalProperties: false
+    snapshot_parameters: {output_enabled: enabled}
+telemetry:
+  - {key: environment.temperature, title: Temperature, value_type: number, unit: '°C'}
+  - {key: environment.humidity, title: Humidity, value_type: number, unit: '%'}
+configuration_schema:
+  type: object
+  additionalProperties: false
+  x-default-port: 80
+  properties:
+    status_path:
+      type: string
+      title: Status endpoint
+      default: /api/status
+      pattern: '^/[A-Za-z0-9_./-]+$'
+      maxLength: 128
+    enable_control:
+      type: boolean
+      title: Enable output control
+      default: false
+dashboard:
+  collapsed: [metric:environment.temperature, metric:environment.humidity]
+  expanded: [network:host, metric:environment.temperature, metric:environment.humidity, parameter:output_enabled, command:set_output]

@@ -1,0 +1,30 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Allow HTTP on a trusted network (unencrypted password)": "Allow HTTP on a trusted network (unencrypted password)",
+    "CPU": "CPU",
+    "Ethernet / SFP+ ports": "Ethernet / SFP+ ports",
+    "Free memory": "Free memory",
+    "HTTPS CA file (optional)": "HTTPS CA file (optional)",
+    "Link drops": "Link drops",
+    "Password environment variable": "Password environment variable",
+    "Port RX": "Port RX",
+    "Port TX": "Port TX",
+    "Port disabled": "Port disabled",
+    "Port link": "Port link",
+    "Port speed": "Port speed",
+    "Ports": "Ports",
+    "Ports UP": "Ports UP",
+    "RX errors": "RX errors",
+    "RouterOS password": "RouterOS password",
+    "RouterOS username": "RouterOS username",
+    "SFP+ 1": "SFP+ 1",
+    "SFP+ 2": "SFP+ 2",
+    "TX errors": "TX errors",
+    "Temperature": "Temperature",
+    "Total RX": "Total RX",
+    "Total TX": "Total TX",
+    "Total memory": "Total memory",
+    "Uptime": "Uptime"
+  }
+}

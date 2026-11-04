@@ -1,0 +1,27 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Additional video sources (NDI discovered automatically)": "Additional video sources (NDI discovered automatically)",
+    "Autofocus / manual": "Autofocus / manual",
+    "Battery": "Battery",
+    "Battery temp.": "Battery temp.",
+    "Camera portal HTTP port": "Camera portal HTTP port",
+    "Enable camera control": "Enable camera control",
+    "Focus": "Focus",
+    "HOME / presets 1–3": "HOME / presets 1–3",
+    "Lens temp.": "Lens temp.",
+    "Other buttons (unavailable in adapter)": "Other buttons (unavailable in adapter)",
+    "PTZ arrows / HOME": "PTZ arrows / HOME",
+    "Pan (degrees)": "Pan (degrees)",
+    "Preset number": "Preset number",
+    "Read battery and temperature from portal": "Read battery and temperature from portal",
+    "Read timeout (s)": "Read timeout (s)",
+    "Tilt (degrees)": "Tilt (degrees)",
+    "Tracking": "Tracking",
+    "Tracking ON / OFF": "Tracking ON / OFF",
+    "Video preview — FPS limit": "Video preview — FPS limit",
+    "Video sources / preview": "Video sources / preview",
+    "Zoom (x)": "Zoom (x)",
+    "Zoom − / +": "Zoom − / +"
+  }
+}

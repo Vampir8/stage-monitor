@@ -1,0 +1,30 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Allow HTTP on a trusted network (unencrypted password)": "Zezwól na HTTP w zaufanej sieci (hasło bez szyfrowania)",
+    "CPU": "CPU",
+    "Ethernet / SFP+ ports": "Porty Ethernet / SFP+",
+    "Free memory": "Wolna pamięć",
+    "HTTPS CA file (optional)": "Plik CA dla HTTPS (opcjonalnie)",
+    "Link drops": "Utraty linku",
+    "Password environment variable": "Zmienna z hasłem",
+    "Port RX": "RX portu",
+    "Port TX": "TX portu",
+    "Port disabled": "Port wyłączony",
+    "Port link": "Link portu",
+    "Port speed": "Szybkość portu",
+    "Ports": "Porty",
+    "Ports UP": "Porty UP",
+    "RX errors": "Błędy RX",
+    "RouterOS password": "Hasło RouterOS",
+    "RouterOS username": "Login RouterOS",
+    "SFP+ 1": "SFP+ 1",
+    "SFP+ 2": "SFP+ 2",
+    "TX errors": "Błędy TX",
+    "Temperature": "Temperatura",
+    "Total RX": "Łącznie RX",
+    "Total TX": "Łącznie TX",
+    "Total memory": "Pamięć całkowita",
+    "Uptime": "Czas pracy"
+  }
+}

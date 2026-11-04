@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stage Monitor</title>
+<link rel="preload" href="CascadiaCode.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="live.css">
+</head>
+<body class="live-mode">
+<div class="backend-bar" aria-label="Backend connection">
+  <span id="connectionStatus" class="connection-status">Signing in</span>
+  <span id="sessionUser"></span>
+  <button id="deviceSettingsButton" class="btn" hidden>Devices</button>
+  <button id="logoutButton" class="btn" hidden>Sign out</button>
+</div>
+<div id="loginOverlay" class="login-overlay">
+  <form id="loginForm" class="login-panel">
+    <span class="login-eyebrow">STAGE MONITOR</span>
+    <h1>Show dashboard</h1>
+    <p>Sign in to see devices and their current state.</p>
+    <label for="loginUsername">Username</label>
+    <input id="loginUsername" name="username" autocomplete="username" required value="admin" maxlength="80">
+    <label for="loginPassword">Password</label>
+    <input id="loginPassword" name="password" type="password" autocomplete="current-password" required maxlength="256">
+    <p id="loginError" class="login-error" role="alert"></p>
+    <button id="loginSubmit" class="btn theme-blue" type="submit">Sign in</button>
+    <small>Control permissions depend on your role.</small>
+  </form>
+</div>
+<div id="liveNotice" class="live-notice" role="status" hidden></div>
+<div class="topbar">
+  <button class="active" data-toggle-cat="gateway">Gateway</button>
+  <button class="active" data-toggle-cat="mics">Microphones</button>
+  <button class="active" data-toggle-cat="iems">IEM</button>
+  <button class="active" data-toggle-cat="audio">Audio</button>
+  <button class="active" data-toggle-cat="network">Network</button>
+  <button class="active" data-toggle-cat="video">Video</button>
+  <button class="active weather-topbar-btn" data-toggle-cat="weather">Weather</button>
+  <button class="active chat-topbar-btn" data-toggle-cat="chat">Chat <span class="chat-unread-badge" hidden>0</span></button>
+</div>
+<div class="dashboard" role="region" aria-label="Show devices" tabindex="0">
+<section class="card chat-card expandable-card device-card" data-cat="chat" data-type="chat" hidden></section>
+</div>
+<script src="i18n.js"></script>
+<script src="bootstrap.js"></script>
+</body>
+</html>
