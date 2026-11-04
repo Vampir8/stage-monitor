@@ -1,0 +1,18 @@
+{
+  "api_version": 1,
+  "messages": {
+    "RF level": "RF level",
+    "RSSI": "RSSI",
+    "Audio level": "Audio level",
+    "Audio RMS": "Audio RMS",
+    "Audio peak": "Audio peak",
+    "Battery bars": "Battery bars",
+    "Battery runtime": "Battery runtime",
+    "Receiver channel": "Receiver channel",
+    "Meter interval (ms)": "Meter interval (ms)",
+    "Response timeout (s)": "Response timeout (s)",
+    "Enable frequency and gain control": "Enable frequency and gain control",
+    "Receiver band lower limit (MHz)": "Receiver band lower limit (MHz)",
+    "Receiver band upper limit (MHz)": "Receiver band upper limit (MHz)"
+  }
+}

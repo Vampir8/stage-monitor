@@ -26,11 +26,12 @@ Device categories are data, not a fixed core enum. A new category or adapter doe
 
 ## Integrations
 
-The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The public distribution contains **11 device adapters and no production simulator plugins**.
+The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The public distribution contains **12 device adapters and no production simulator plugins**.
 
 | Integration | Plugin ID | Purpose |
 | --- | --- | --- |
 | Shure QLX-D / QLXD4 | `shure.qlxd` | Receiver telemetry; optional frequency/gain control |
+| Shure SLX-D / SLXD4 / SLXD4D | `shure.slxd` | RF/audio/battery telemetry; optional frequency/gain control |
 | Sennheiser SR IEM G4 | `sennheiser.iem_g4` | IEM transmitter monitoring |
 | OBSBOT Tail Air | `obsbot.tail_air` | VISCA state, optional PTZ/presets, portal telemetry and preview metadata |
 | MikroTik CRS326 | `mikrotik.crs326` | RouterOS resources, traffic and ports |

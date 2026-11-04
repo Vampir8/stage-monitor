@@ -1,0 +1,171 @@
+plugin_id: shure.slxd
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.shure_slxd.plugin:SLXDPlugin
+manufacturer: Shure
+model: SLX-D / SLXD4 / SLXD4D
+supported_protocols:
+- tcp
+communication_mode: hybrid
+capabilities:
+- id: rf.monitoring
+- id: rf.frequency
+  writable: true
+- id: audio.gain
+  writable: true
+commands:
+- name: set_frequency
+  capability_id: rf.frequency
+  idempotent: true
+  timeout_seconds: 3
+  snapshot_parameters:
+    frequency_mhz: frequency_mhz
+  parameters_schema:
+    type: object
+    properties:
+      frequency_mhz:
+        type: number
+        minimum: 100
+        maximum: 999.999
+        x-step: 0.001
+    required:
+    - frequency_mhz
+    additionalProperties: false
+- name: set_gain
+  capability_id: audio.gain
+  idempotent: true
+  timeout_seconds: 3
+  snapshot_parameters:
+    gain_db: gain_db
+  parameters_schema:
+    type: object
+    properties:
+      gain_db:
+        type: integer
+        minimum: -18
+        maximum: 42
+    required:
+    - gain_db
+    additionalProperties: false
+telemetry:
+- key: rf.level
+  title: RF level
+  value_type: number
+  unit: dBm
+  minimum: -120
+  maximum: 0
+- key: rf.rssi
+  title: RSSI
+  value_type: number
+  unit: dBm
+  minimum: -120
+  maximum: 0
+- key: audio.level
+  title: Audio level
+  value_type: number
+  unit: dBFS
+  minimum: -120
+  maximum: 0
+- key: audio.rms
+  title: Audio RMS
+  value_type: number
+  unit: dBFS
+  minimum: -120
+  maximum: 0
+- key: audio.peak
+  title: Audio peak
+  value_type: number
+  unit: dBFS
+  minimum: -120
+  maximum: 0
+- key: battery.bars
+  title: Battery bars
+  value_type: number
+  unit: bars
+  minimum: 0
+  maximum: 5
+- key: battery.runtime_minutes
+  title: Battery runtime
+  value_type: number
+  unit: min
+  minimum: 0
+  maximum: 65532
+configuration_schema:
+  type: object
+  x-default-port: 2202
+  properties:
+    channel:
+      type: integer
+      title: Receiver channel
+      enum:
+      - 1
+      - 2
+      default: 1
+    meter_interval_ms:
+      type: integer
+      title: Meter interval (ms)
+      minimum: 100
+      maximum: 1000
+      default: 250
+    request_timeout:
+      type: number
+      title: Response timeout (s)
+      minimum: 0.2
+      maximum: 1
+      default: 1
+    enable_control:
+      type: boolean
+      title: Enable frequency and gain control
+      default: false
+    min_frequency_mhz:
+      type: number
+      title: Receiver band lower limit (MHz)
+      minimum: 100
+      maximum: 999.999
+    max_frequency_mhz:
+      type: number
+      title: Receiver band upper limit (MHz)
+      minimum: 100
+      maximum: 999.999
+  additionalProperties: false
+  allOf:
+  - if:
+      properties:
+        enable_control:
+          const: true
+      required:
+      - enable_control
+    then:
+      required:
+      - min_frequency_mhz
+      - max_frequency_mhz
+dashboard:
+  collapsed:
+  - metric:rf.level
+  - metric:audio.level
+  - metric:battery.bars
+  - metric:battery.runtime_minutes
+  - parameter:frequency_mhz
+  - parameter:channel_name
+  - meter:rf.level
+  - meter:audio.level
+  - history:rf.level
+  - history:audio.level
+  expanded:
+  - network:host
+  - metric:rf.level
+  - metric:rf.rssi
+  - metric:audio.level
+  - metric:audio.rms
+  - metric:audio.peak
+  - metric:battery.bars
+  - metric:battery.runtime_minutes
+  - parameter:frequency_mhz
+  - parameter:gain_db
+  - parameter:channel_name
+  - command:set_frequency
+  - command:set_gain
+  - meter:rf.level
+  - meter:audio.level
+  - history:rf.level
+  - history:audio.level

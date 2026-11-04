@@ -6,6 +6,12 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DETAILS = {
+    "shure.slxd": (
+        "Shure SLX-D / SLXD4 / SLXD4D",
+        "Monitor RF RSSI, audio RMS/peak, transmitter battery bars/runtime and receiver settings; optionally change frequency and gain.",
+        "Enable Advanced Settings → Controller Access on the receiver and use TCP port 2202. Select channel 1 for SLXD4; SLXD4D allows channel 1 or 2 (one device instance per selected channel). Use one external controller per receiver; two independent channel instances/connections on an SLXD4D have not been validated. Meter subscription is required even when frequency/gain control is disabled. Audio RMS/peak and RF RSSI use the documented raw-minus-120 dBFS/dBm scales. Battery bars are 0–5, not a percentage; runtime depends on the transmitter/battery and sentinel values remain unknown. Control is off by default and requires the actual receiver band limits. No mute, temperature, SLX-D+ support or discovery is implemented. See the official [Shure user guide](https://www.shure.com/en-US/docs/guide/SLXD) and [command reference](https://www.shure.com/en-US/docs/commandstrings/SLXD).",
+        "Parser and real loopback TCP tests cover fragmented frames, selected channels, documented meter scales, battery sentinels, confirmed frequency/gain replies, timeouts and cleanup. No physical SLXD4 or SLXD4D was connected during development; verify telemetry and control against your receiver/firmware before show use.",
+    ),
     "shure.qlxd": (
         "Shure QLX-D / QLXD4",
         "Monitor receiver RF/audio/battery information and optionally configure frequency and gain.",
