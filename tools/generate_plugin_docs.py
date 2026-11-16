@@ -6,6 +6,12 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DETAILS = {
+    "nut.ups": (
+        "Generic NUT UPS",
+        "Monitor a UPS exposed by Network UPS Tools (NUT), including a Legrand Keor PDU connected to a Dragino running NUT.",
+        "Point the device at the upsd host, typically on TCP port 3493. In the device editor, click **Load options from server** and select the UPS by its NUT name, or enter the name manually. An empty name works when the server exposes a single UPS. Add one Stage Monitor device per UPS. Standard NUT status codes remain visible (OL means line power, OB means on battery and LB means low battery). To add alarms, configure parameter rules for `ups.on_battery` and `ups.low_battery`, with operator **equals** and value **true**. The adapter sends only LIST requests.",
+        "A local NUT protocol fixture exercises UPS selection, multiple devices, an alert rule and stale telemetry. Live telemetry was verified with a Legrand Keor PDU 800 over USB through a Dragino MS14N-S running NUT 2.8.1. Metric values are reported by the NUT driver and may need independent verification. See the [NUT wire protocol](https://networkupstools.org/historic/v2.8.1/docs/developer-guide.chunked/net-protocol.html).",
+    ),
     "shure.slxd": (
         "Shure SLX-D / SLXD4 / SLXD4D",
         "Monitor RF RSSI, audio RMS/peak, transmitter battery bars/runtime and receiver settings; optionally change frequency and gain.",

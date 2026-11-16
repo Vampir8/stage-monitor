@@ -207,7 +207,7 @@ class PluginSupervisor:
         self.diagnostics = diagnostics
         self.udp_relay = udp_relay
 
-    async def start(self):
+    async def start(self, *, initialize=True):
         ctx = multiprocessing.get_context("spawn")
         parent, child = ctx.Pipe(duplex=True)
         self.connection = parent
@@ -222,8 +222,9 @@ class PluginSupervisor:
         self.last_heartbeat = asyncio.get_running_loop().time()
         self.reader = asyncio.create_task(self._read(), name=f"reader-{self.device.id}")
         description = await self.rpc("describe")
-        await self.rpc("connect")
-        await self.rpc("start")
+        if initialize:
+            await self.rpc("connect")
+            await self.rpc("start")
         return description
 
     async def _read(self):
@@ -241,7 +242,8 @@ class PluginSupervisor:
                         else:
                             future.set_result(message.get("data"))
                 elif kind == "update":
-                    await self.update_callback(DeviceState.model_validate(message["data"]))
+                    if self.update_callback is not None:
+                        await self.update_callback(DeviceState.model_validate(message["data"]))
                 elif kind == 'trace':
                     if self.diagnostics:
                         self.diagnostics.trace(self.device.id,message.get('data',{}))
@@ -299,7 +301,7 @@ class PluginSupervisor:
                 await asyncio.to_thread(self.process.join, 1)
         if self.process and self.process.is_alive():
             self.process.terminate()
-        if self.process:
+        if self.process and self.process.pid:
             await asyncio.to_thread(self.process.join, 2)
             if self.process.is_alive():
                 self.process.kill()

@@ -18,7 +18,7 @@ from .auth import AuthService, Login, UserCreate, UserUpdate, can_access, can_co
 from .backups import BackupService, apply_pending, register as register_backups
 from .chat.api import register as register_chat
 from .chat.service import ChatService
-from .contracts import CommandRequest, Device, DeviceCreate, Model, new_id, now
+from .contracts import CommandRequest, Device, DeviceCreate, DeviceEndpoint, Model, new_id, now
 from .credentials import CredentialUnavailable
 from .device_manager import Conflict, DeviceManager
 from .discovery import DiscoveryService, register as register_discovery
@@ -32,6 +32,7 @@ from .journal import Journal, redact, register as register_journal
 from .media.service import MediaService, register as register_media
 from .plugin_manager import PluginManager
 from .presets import PresetService, register as register_presets
+from .runtime import PluginFailure, PluginSupervisor
 from .settings import Settings
 from .shows import ShowService, register as register_shows
 from .storage import Storage
@@ -80,8 +81,14 @@ class DeviceInput(DeviceCreate):
                                        json_schema_extra={'writeOnly': True})
 
 
+class ConfigurationOption(Model):
+    value: str = Field(min_length=1, max_length=160)
+    label: str = Field(default="", max_length=160)
+
+
 def create_app(settings: Settings | None = None):
     settings = settings or Settings.from_environment()
+    option_lookup_lock = asyncio.Lock()
 
     @asynccontextmanager
     async def lifespan(app):
@@ -413,6 +420,40 @@ def create_app(settings: Settings | None = None):
     @app.get("/api/plugins")
     async def plugins(user=Depends(current_user)):
         return app.state.plugins.list()
+
+    @app.post("/api/plugins/{plugin_id}/configuration/{field}", response_model=list[ConfigurationOption])
+    async def configuration_options(plugin_id: str, field: str, endpoint: DeviceEndpoint,
+                                    user=Depends(admin)):
+        try:
+            entry = app.state.plugins.get(plugin_id)
+        except ValueError:
+            raise HTTPException(404, "Plugin unavailable") from None
+        descriptor = entry["descriptor"]
+        property_schema = descriptor.configuration_schema.get("properties", {}).get(field)
+        if not entry["enabled"] or not isinstance(property_schema, dict) or not property_schema.get("x-list-options"):
+            raise HTTPException(404, "Configuration options unavailable")
+        if (endpoint.transport not in descriptor.supported_protocols or not endpoint.host
+                or len(endpoint.host) > 253):
+            raise HTTPException(422, "Invalid device endpoint")
+        if option_lookup_lock.locked():
+            raise HTTPException(429, "Another device lookup is running")
+
+        async with option_lookup_lock:
+            device = Device(name=descriptor.model, category="unassigned", plugin_id=plugin_id,
+                            endpoint=endpoint)
+            supervisor = PluginSupervisor(device, entry, 5, None)
+            try:
+                await supervisor.start(initialize=False)
+                options = await supervisor.rpc("inspect", {"action": f"configuration:{field}"})
+                if not isinstance(options, list) or len(options) > 100:
+                    raise ValueError("Invalid configuration options")
+                return [ConfigurationOption.model_validate(option) for option in options]
+            except TimeoutError:
+                raise HTTPException(504, "Device lookup timed out") from None
+            except (PluginFailure, OSError, ValueError):
+                raise HTTPException(502, "Could not load device options") from None
+            finally:
+                await supervisor.close()
 
     @app.post("/api/plugins/{plugin_id}/{action}")
     async def toggle_plugin(plugin_id: str, action: str, user=Depends(admin)):

@@ -1,0 +1,20 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Active power": "Moc czynna",
+    "Apparent power": "Moc pozorna",
+    "Battery charge": "Naładowanie baterii",
+    "Battery runtime": "Czas pracy na baterii",
+    "Battery voltage": "Napięcie baterii",
+    "Input frequency": "Częstotliwość wejściowa",
+    "Input voltage": "Napięcie wejściowe",
+    "Leave empty to select the only UPS on the server.": "Jeśli serwer udostępnia tylko jeden UPS, możesz zostawić to pole puste.",
+    "Output frequency": "Częstotliwość wyjściowa",
+    "Output voltage": "Napięcie wyjściowe",
+    "Response timeout (s)": "Limit czasu odpowiedzi (s)",
+    "UPS load": "Obciążenie UPS",
+    "UPS name": "Nazwa UPS",
+    "UPS status": "Stan UPS",
+    "UPS temperature": "Temperatura UPS"
+  }
+}

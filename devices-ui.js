@@ -271,6 +271,8 @@ document.addEventListener('stage:ready', () => {
     const layoutRows = node('div', 'feature-selection'); layoutBox.append(layoutRows); grid.append(layoutBox);
     let readLayout = () => device?.dashboard_layout || null;
     let readers = [], schema = null, baseline = {}, credentialInput = null;
+    let resetOptionList = () => {};
+    let defaultCategory = category.value;
 
     function transportFields() {
       const local = ['mock', 'serial', 'rs232', 'rs422', 'usb_serial'].includes(transport.value);
@@ -283,6 +285,10 @@ document.addEventListener('stage:ready', () => {
     function pluginFieldsChanged() {
       const entry = available.find(item => item.plugin_id === plugin.value);
       schema = entry?.manifest.configuration_schema;
+      if (!device && category.value === defaultCategory) {
+        defaultCategory = window.StageGroups.label(schema?.['x-default-category'] || 'microphone');
+        category.value = defaultCategory;
+      }
       const defaultLayout = window.StageDeviceFeatures.defaults(entry?.manifest, {category:category.value});
       const selectedLayout = device?.plugin_id === plugin.value && device?.dashboard_layout ? device.dashboard_layout : defaultLayout;
       const useDefaults = node('input'); useDefaults.type = 'checkbox'; useDefaults.checked = !device?.dashboard_layout || device?.plugin_id !== plugin.value;
@@ -324,6 +330,7 @@ document.addEventListener('stage:ready', () => {
       transportFields();
       help.textContent = entry ? stageText("{0} · version {1} · API {2}{3}", [entry.manifest.plugin_id, entry.manifest.plugin_version, entry.manifest.plugin_api_version, entry.enabled ? '' : stageText(" · Plugin disabled: the device will remain offline.")]) : stageText("No available plugin.");
       pluginFields.replaceChildren(); readers = []; credentialInput = null;
+      resetOptionList = () => {};
       const diagnostics = node('details', 'settings-wide');
       diagnostics.append(node('summary', '', stageText("Diagnostic scenarios")));
       const diagnosticFields = node('div', 'settings-grid'); diagnostics.append(diagnosticFields);
@@ -357,6 +364,63 @@ document.addEventListener('stage:ready', () => {
           input.value = value === undefined ? '' : JSON.stringify(value, null, 2); input.rows = 4;
           wrapper.append(input); target.append(wrapper);
         }
+        if (definition['x-list-options'] && definition.type === 'string') {
+          const actions = node('div', 'settings-wide settings-grid');
+          const result = node('p', 'settings-help settings-wide');
+          result.setAttribute('role', 'status');
+          const choices = field(actions, label, '', {select: []});
+          choices.closest('label').hidden = true;
+          choices.addEventListener('change', () => { if (choices.value) input.value = choices.value; });
+          const fetchOptions = button(stageText("Load options from server"), async () => {
+            if (!host.reportValidity() || !port.reportValidity()) return;
+            clearOptions();
+            const stamp = lookupRevision;
+            fetchOptions.disabled = true;
+            result.textContent = stageText("Loading…");
+            try {
+              const options = await context.request(
+                `/api/plugins/${encodeURIComponent(entry.plugin_id)}/configuration/${encodeURIComponent(key)}`,
+                {method: 'POST', body: JSON.stringify({host: host.value.trim(), port: Number(port.value), transport: transport.value})}
+              );
+              if (!actions.isConnected || stamp !== lookupRevision) return;
+              if (!options.length) {
+                result.textContent = stageText("The server returned no options.");
+                return;
+              }
+              const placeholder = node('option', '', stageText("Select an option…"));
+              placeholder.value = '';
+              choices.append(placeholder);
+              for (const {value, label: description} of options) {
+                const option = node('option', '', description ? `${value} — ${description}` : value);
+                option.value = value; choices.append(option);
+              }
+              if (options.some(option => option.value === input.value)) choices.value = input.value;
+              else if (!input.value && options.length === 1) choices.value = input.value = options[0].value;
+              choices.closest('label').hidden = false;
+              result.textContent = '';
+            } catch {
+              if (actions.isConnected && stamp === lookupRevision) {
+                result.textContent = stageText("Could not load options from the server.");
+              }
+            } finally {
+              if (stamp === lookupRevision) fetchOptions.disabled = false;
+            }
+          });
+          let lookupRevision = 0;
+          function clearOptions() {
+            lookupRevision++;
+            choices.replaceChildren();
+            choices.closest('label').hidden = true;
+            result.textContent = '';
+            fetchOptions.disabled = false;
+          }
+          const resetPrevious = resetOptionList;
+          resetOptionList = () => { resetPrevious(); clearOptions(); };
+          actions.prepend(fetchOptions);
+          if (definition.description) actions.append(node('p', 'settings-help settings-wide', definition.description));
+          actions.append(result);
+          target.append(actions);
+        }
         readers.push(() => {
           if (definition.type === 'boolean') return [key, input.checked];
           if (!input.value.trim()) return [key, undefined];
@@ -374,7 +438,8 @@ document.addEventListener('stage:ready', () => {
       if (!readers.length) pluginFields.append(node('p', 'settings-help', stageText("This plugin requires no additional options.")));
     }
     plugin.addEventListener('change', pluginFieldsChanged);
-    transport.addEventListener('change', transportFields);
+    transport.addEventListener('change', () => { transportFields(); resetOptionList(); });
+    for (const input of [host, port]) input.addEventListener('input', () => resetOptionList());
     pluginFieldsChanged();
     const actions = node('div', 'settings-actions');
     const save = button(stageText("Save device"), null, 'submit'); save.disabled = !available.length;

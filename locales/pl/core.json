@@ -1,6 +1,10 @@
 {
   "api_version": 1,
   "messages": {
+    "Load options from server": "Pobierz opcje z serwera",
+    "The server returned no options.": "Serwer nie zwrócił żadnej opcji.",
+    "Select an option…": "Wybierz opcję…",
+    "Could not load options from the server.": "Nie udało się pobrać opcji z serwera.",
     " (plugin disabled)": " (plugin wyłączony)",
     " (unavailable)": " (niedostępna)",
     " are typing…": " piszą…",

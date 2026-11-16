@@ -10,6 +10,7 @@ Each page documents the current English manifest, setup, telemetry, controls and
 | [MikroTik CRS326 / RouterOS](mikrotik-crs326.md) | `mikrotik.crs326` | http, https |
 | [MikroTik RouterOS 7 — basic adapter](mikrotik-routeros.md) | `mikrotik.routeros` | http, https |
 | [Obsidian NETRON EN12](netron-en12.md) | `netron.en12` | http, udp |
+| [Generic NUT UPS](nut-ups.md) | `nut.ups` | tcp |
 | [OBS Wave Player](obs-wave_player.md) | `obs.wave_player` | http |
 | [OBSBOT Tail Air](obsbot-tail_air.md) | `obsbot.tail_air` | udp |
 | [Phoenix Contact EEM-MA370](phoenix-eem_ma370.md) | `phoenix.eem_ma370` | modbus |

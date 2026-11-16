@@ -1,0 +1,67 @@
+plugin_id: nut.ups
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.nut_ups.plugin:NutUpsPlugin
+manufacturer: Generic
+model: NUT UPS
+supported_protocols: [tcp]
+communication_mode: polling
+capabilities:
+  - id: power.monitoring
+commands: []
+telemetry:
+  - {key: ups.status, title: UPS status, value_type: string}
+  - {key: battery.percent, title: Battery charge, value_type: number, unit: '%'}
+  - {key: battery.runtime, title: Battery runtime, value_type: number, unit: s}
+  - {key: battery.voltage, title: Battery voltage, value_type: number, unit: V}
+  - {key: ups.load, title: UPS load, value_type: number, unit: '%'}
+  - {key: power.active, title: Active power, value_type: number, unit: W}
+  - {key: power.apparent, title: Apparent power, value_type: number, unit: VA}
+  - {key: ups.temperature, title: UPS temperature, value_type: number, unit: '°C'}
+  - {key: input.voltage, title: Input voltage, value_type: number, unit: V}
+  - {key: input.frequency, title: Input frequency, value_type: number, unit: Hz}
+  - {key: output.voltage, title: Output voltage, value_type: number, unit: V}
+  - {key: output.frequency, title: Output frequency, value_type: number, unit: Hz}
+configuration_schema:
+  type: object
+  x-default-port: 3493
+  x-default-category: power
+  properties:
+    ups_name:
+      type: string
+      title: UPS name
+      description: Leave empty to select the only UPS on the server.
+      pattern: '^[A-Za-z0-9_.\-]{1,64}$'
+      maxLength: 64
+      x-list-options: true
+    request_timeout:
+      type: number
+      title: Response timeout (s)
+      minimum: 0.5
+      maximum: 3
+      default: 2
+  additionalProperties: false
+dashboard:
+  collapsed:
+    - metric:ups.status
+    - metric:battery.percent
+    - metric:battery.runtime
+    - metric:ups.load
+    - metric:input.voltage
+    - metric:output.voltage
+  expanded:
+    - network:host
+    - metric:ups.status
+    - metric:battery.percent
+    - metric:battery.runtime
+    - metric:battery.voltage
+    - metric:ups.load
+    - metric:power.active
+    - metric:power.apparent
+    - metric:input.voltage
+    - metric:input.frequency
+    - metric:output.voltage
+    - metric:output.frequency
+    - metric:ups.temperature
+    - history:battery.percent
+    - history:ups.load

@@ -1,0 +1,20 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Active power": "Active power",
+    "Apparent power": "Apparent power",
+    "Battery charge": "Battery charge",
+    "Battery runtime": "Battery runtime",
+    "Battery voltage": "Battery voltage",
+    "Input frequency": "Input frequency",
+    "Input voltage": "Input voltage",
+    "Leave empty to select the only UPS on the server.": "Leave empty to select the only UPS on the server.",
+    "Output frequency": "Output frequency",
+    "Output voltage": "Output voltage",
+    "Response timeout (s)": "Response timeout (s)",
+    "UPS load": "UPS load",
+    "UPS name": "UPS name",
+    "UPS status": "UPS status",
+    "UPS temperature": "UPS temperature"
+  }
+}

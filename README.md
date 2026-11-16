@@ -26,7 +26,7 @@ Device categories are data, not a fixed core enum. A new category or adapter doe
 
 ## Integrations
 
-The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The public distribution contains **12 device adapters and no production simulator plugins**.
+The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The public distribution contains **13 device adapters and no production simulator plugins**.
 
 | Integration | Plugin ID | Purpose |
 | --- | --- | --- |
@@ -38,6 +38,7 @@ The [plugin catalog](docs/plugins/README.md) contains individual setup guides, c
 | MikroTik RouterOS 7 | `mikrotik.routeros` | Basic network/resource summary |
 | NETRON EN12 | `netron.en12` | Gateway and DMX port monitoring |
 | Phoenix Contact EEM-MA370 | `phoenix.eem_ma370` | Read-only Modbus TCP power measurements |
+| NUT UPS | `nut.ups` | Read-only UPS status, battery, load and voltage via Network UPS Tools |
 | Denon SC6000 | `denon.sc6000` | Read-only StageLinQ deck state/metadata |
 | OBS Wave Player | `obs.wave_player` | Playback/library control, state and audio meters |
 | Generic RTSP | `generic.rtsp` | Camera preview through the media layer |
