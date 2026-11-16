@@ -6,11 +6,35 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DETAILS = {
+    "openwrt.ubus": (
+        "Generic OpenWrt router",
+        "Monitor an OpenWrt router or gateway through its uhttpd ubus JSON-RPC endpoint.",
+        """Install or enable `uhttpd-mod-ubus` and `rpcd` on the router. Use HTTPS on port 443 with a trusted certificate or supply the CA file on the backend host. Save the RPC password in the device editor. For a legacy device on an isolated LAN, select HTTP port 80 and explicitly enable the plain HTTP option.
+
+Grant the RPC login read access to the following ACL group. Save the example as `/usr/share/rpcd/acl.d/stage-monitor-openwrt.json`, add the group to the login's read list in `/etc/config/rpcd` if needed, and restart `rpcd`.
+
+```json
+{
+  "stage-monitor-openwrt": {
+    "description": "Read OpenWrt telemetry",
+    "read": {
+      "ubus": {
+        "system": ["board", "info"],
+        "network.device": ["status"]
+      }
+    }
+  }
+}
+```
+
+By default the adapter selects common physical Ethernet, SFP and Wi-Fi interface names. Enter a JSON list of interface names to override the selection. RX/TX rates are calculated per interface from byte counters and require two consecutive samples. CPU load is the Linux load average. Temperature is optional. Set an exact Linux thermal or hwmon sysfs path and permit the `file.read` ubus method and read access to that path in the RPC account's ACL. The path must expose millidegrees Celsius.""",
+        "Verified on a Dragino MS14N-S with its 4.3.7 firmware and the legacy OpenWrt 15.05.1 ubus endpoint. Loopback tests cover session expiration, per-interface counters, reboot detection and an optional thermal sensor. [OpenWrt ubus documentation](https://openwrt.org/docs/techref/ubus?s%5B%5D=1&s%5B%5D=default).",
+    ),
     "nut.ups": (
         "Generic NUT UPS",
         "Monitor a UPS exposed by Network UPS Tools (NUT), including a Legrand Keor PDU connected to a Dragino running NUT.",
-        "Point the device at the upsd host, typically on TCP port 3493. In the device editor, click **Load options from server** and select the UPS by its NUT name, or enter the name manually. An empty name works when the server exposes a single UPS. Add one Stage Monitor device per UPS. Standard NUT status codes remain visible (OL means line power, OB means on battery and LB means low battery). To add alarms, configure parameter rules for `ups.on_battery` and `ups.low_battery`, with operator **equals** and value **true**. The adapter sends only LIST requests.",
-        "A local NUT protocol fixture exercises UPS selection, multiple devices, an alert rule and stale telemetry. Live telemetry was verified with a Legrand Keor PDU 800 over USB through a Dragino MS14N-S running NUT 2.8.1. Metric values are reported by the NUT driver and may need independent verification. See the [NUT wire protocol](https://networkupstools.org/historic/v2.8.1/docs/developer-guide.chunked/net-protocol.html).",
+        "Point the device at the upsd host, typically on TCP port 3493. In the device editor, click **Load options from server** and select the UPS by its NUT name, or enter the name manually. An empty name works when the server exposes a single UPS. Add one Stage Monitor device per UPS. Standard NUT status codes remain visible (OL means line power, OB means on battery and LB means low battery). To add alarms, configure parameter rules for `ups.on_battery` and `ups.low_battery`, with operator **equals** and value **true**. The adapter sends only LIST requests. When measured active power is unavailable, the adapter can estimate it from `ups.load × ups.realpower.nominal ÷ 100`, rounded to whole watts. The estimate assumes that the UPS expresses load as a percentage of its rated active power. The dashboard labels it separately from measured watts.",
+        "A local NUT protocol fixture exercises UPS selection, multiple devices, an alert rule and stale telemetry. Live telemetry was verified with a Legrand Keor PDU 800 over USB through a Dragino MS14N-S running NUT 2.8.1. For USB ID `1cb0:0038` on Legrand HID 0.2, the adapter rescales a legacy battery reading by a factor of 10 only when NUT reports a nominal battery voltage of 1.2 V. A corrected NUT driver can report battery voltage directly, preserving decimal precision. The adapter independently rescales underscaled output voltage and marks it unverified, which excludes it from threshold alerts. Metric labels retain the original NUT value and scale factor. See the [NUT wire protocol](https://networkupstools.org/historic/v2.8.1/docs/developer-guide.chunked/net-protocol.html).",
     ),
     "shure.slxd": (
         "Shure SLX-D / SLXD4 / SLXD4D",

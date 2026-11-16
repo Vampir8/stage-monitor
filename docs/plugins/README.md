@@ -13,6 +13,7 @@ Each page documents the current English manifest, setup, telemetry, controls and
 | [Generic NUT UPS](nut-ups.md) | `nut.ups` | tcp |
 | [OBS Wave Player](obs-wave_player.md) | `obs.wave_player` | http |
 | [OBSBOT Tail Air](obsbot-tail_air.md) | `obsbot.tail_air` | udp |
+| [Generic OpenWrt router](openwrt-ubus.md) | `openwrt.ubus` | https, http |
 | [Phoenix Contact EEM-MA370](phoenix-eem_ma370.md) | `phoenix.eem_ma370` | modbus |
 | [Sennheiser SR IEM G4](sennheiser-iem_g4.md) | `sennheiser.iem_g4` | udp |
 | [Shure QLX-D / QLXD4](shure-qlxd.md) | `shure.qlxd` | tcp |

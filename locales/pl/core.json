@@ -1,6 +1,8 @@
 {
   "api_version": 1,
   "messages": {
+    "Errors": "Błędy",
+    "Dropped packets": "Odrzucone pakiety",
     "Load options from server": "Pobierz opcje z serwera",
     "The server returned no options.": "Serwer nie zwrócił żadnej opcji.",
     "Select an option…": "Wybierz opcję…",

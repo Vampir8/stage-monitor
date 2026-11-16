@@ -13,8 +13,9 @@ PASSWORD = "nut-ups-test-password-2026"
 def eventually(check, timeout=15):
     deadline = monotonic() + timeout
     while monotonic() < deadline:
-        if check():
-            return
+        result = check()
+        if result:
+            return result
         sleep(0.05)
     raise AssertionError(f"NUT condition not satisfied within {timeout}s")
 
@@ -28,10 +29,20 @@ class UpsdHandler(StreamRequestHandler):
                 'BEGIN LIST UPS\nUPS keor "Rack UPS"\nUPS backup "Backup UPS"\nEND LIST UPS\n'
             )
         elif command == "LIST VAR keor" and self.server.status != "STALE":
+            measured = self.server.measured_watts
+            measured_row = f'VAR keor ups.realpower "{measured}"\n' if measured is not None else ""
             reply = (
                 'BEGIN LIST VAR keor\nVAR keor ups.mfr "Legrand"\n'
                 'VAR keor ups.model "Keor PDU"\nVAR keor battery.charge "85"\n'
-                'VAR keor battery.runtime "NaN"\nVAR keor ups.load "0"\n'
+                'VAR keor battery.runtime "NaN"\nVAR keor ups.load "17"\n'
+                'VAR keor ups.realpower.nominal "480"\n'
+                f'{measured_row}'
+                'VAR keor ups.vendorid "1cb0"\nVAR keor ups.productid "0038"\n'
+                'VAR keor driver.version.data "Legrand HID 0.2"\n'
+                f'VAR keor battery.voltage.nominal "{self.server.nominal}"\n'
+                f'VAR keor battery.voltage "{self.server.battery_voltage}"\n'
+                'VAR keor output.voltage "22"\n'
+                'VAR keor input.voltage "227"\n'
                 f'VAR keor ups.status "{self.server.status}"\nEND LIST VAR keor\n'
             )
         elif command == "LIST VAR keor":
@@ -49,7 +60,9 @@ def test_nut_ups_options_monitoring_alert_rules_and_stale_data(tmp_path):
         reconnect_base_seconds=0.2, reconnect_max_seconds=1,
     ))
     with ThreadingTCPServer(("127.0.0.1", 0), UpsdHandler) as server:
-        server.status, server.commands = "OL", []
+        server.status, server.commands, server.nominal = "OL", [], "1.2"
+        server.battery_voltage = "1.4"
+        server.measured_watts = None
         listener = Thread(target=server.serve_forever, daemon=True)
         listener.start()
         endpoint = {"transport": "tcp", "host": "127.0.0.1", "port": server.server_address[1]}
@@ -84,8 +97,15 @@ def test_nut_ups_options_monitoring_alert_rules_and_stale_data(tmp_path):
                 current = state(keor)
                 assert current["identity"]["manufacturer"] == "Legrand"
                 assert {m["key"]: m["value"] for m in current["metrics"]} == {
-                    "ups.status": "OL", "battery.percent": 85, "ups.load": 0,
+                    "ups.status": "OL", "battery.percent": 85, "ups.load": 17,
+                    "battery.voltage": 14, "output.voltage": 220, "input.voltage": 227,
+                    "ups.estimated_realpower": 82,
                 }
+                watts = next(m for m in current["metrics"] if m["key"] == "ups.estimated_realpower")
+                assert watts["unit"] == "W"
+                output = next(m for m in current["metrics"] if m["key"] == "output.voltage")
+                assert output["labels"] == {"nut_raw_value": "22", "nut_scale_factor": "10"}
+                assert output["quality"] == "unknown"
                 assert [m["key"] for m in state(backup)["metrics"]] == ["ups.status"]
                 assert client.get(f"/api/devices/{keor}/commands").json() == []
 
@@ -99,6 +119,22 @@ def test_nut_ups_options_monitoring_alert_rules_and_stale_data(tmp_path):
                 eventually(lambda: client.get("/api/alerts").json())
                 assert state(keor)["status"] == "online"
 
+                server.nominal = "12"
+                server.battery_voltage = "13.5"
+                eventually(lambda: any(
+                    metric["key"] == "battery.voltage" and metric["value"] == 13.5
+                    for metric in state(keor)["metrics"]
+                ))
+                assert next(
+                    metric for metric in state(keor)["metrics"] if metric["key"] == "output.voltage"
+                )["quality"] == "unknown"
+                server.measured_watts = 79
+
+                def measured_watts():
+                    metrics = {m["key"]: m["value"] for m in state(keor)["metrics"]}
+                    return metrics if metrics.get("power.active") == 79 else None
+
+                assert "ups.estimated_realpower" not in eventually(measured_watts)
                 server.status = "STALE"
                 eventually(lambda: state(keor)["status"] in {"error", "offline"})
                 assert all(m["quality"] == "stale" for m in state(keor)["metrics"])

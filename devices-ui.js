@@ -273,8 +273,12 @@ document.addEventListener('stage:ready', () => {
     let readers = [], schema = null, baseline = {}, credentialInput = null;
     let resetOptionList = () => {};
     let defaultCategory = category.value;
+    let defaultPort = null;
 
     function transportFields() {
+      const nextDefault = schema?.['x-default-ports']?.[transport.value];
+      if (nextDefault && (!port.value || port.value === String(defaultPort))) port.value = nextDefault;
+      defaultPort = nextDefault;
       const local = ['mock', 'serial', 'rs232', 'rs422', 'usb_serial'].includes(transport.value);
       host.closest('label').hidden = local; port.closest('label').hidden = local;
       serial.closest('label').hidden = transport.value === 'mock' || !local;
@@ -321,6 +325,9 @@ document.addEventListener('stage:ready', () => {
         history_minutes:Number(historyTime.value),
       };
       if (device?.plugin_id !== plugin.value) port.value = schema?.['x-default-port'] ?? '';
+      defaultPort = device?.plugin_id === plugin.value
+        ? schema?.['x-default-ports']?.[device.endpoint?.transport]
+        : schema?.['x-default-port'];
       baseline = device?.plugin_id === plugin.value ? {...device.custom_config} : {};
       transport.replaceChildren();
       for (const protocol of entry?.manifest.supported_protocols || []) {

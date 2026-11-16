@@ -1,5 +1,5 @@
 plugin_id: nut.ups
-plugin_version: 0.1.0
+plugin_version: 0.2.0
 plugin_api_version: '1.2'
 entrypoint: stage_monitor.plugins.nut_ups.plugin:NutUpsPlugin
 manufacturer: Generic
@@ -15,6 +15,7 @@ telemetry:
   - {key: battery.runtime, title: Battery runtime, value_type: number, unit: s}
   - {key: battery.voltage, title: Battery voltage, value_type: number, unit: V}
   - {key: ups.load, title: UPS load, value_type: number, unit: '%'}
+  - {key: ups.estimated_realpower, title: Estimated active power, value_type: number, unit: W}
   - {key: power.active, title: Active power, value_type: number, unit: W}
   - {key: power.apparent, title: Apparent power, value_type: number, unit: VA}
   - {key: ups.temperature, title: UPS temperature, value_type: number, unit: '°C'}
@@ -47,6 +48,8 @@ dashboard:
     - metric:battery.percent
     - metric:battery.runtime
     - metric:ups.load
+    - metric:ups.estimated_realpower
+    - metric:power.active
     - metric:input.voltage
     - metric:output.voltage
   expanded:
@@ -56,6 +59,7 @@ dashboard:
     - metric:battery.runtime
     - metric:battery.voltage
     - metric:ups.load
+    - metric:ups.estimated_realpower
     - metric:power.active
     - metric:power.apparent
     - metric:input.voltage

@@ -1,0 +1,31 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Uptime": "Uptime",
+    "Uptime in seconds": "Uptime in seconds",
+    "Free memory": "Free memory",
+    "Total memory": "Total memory",
+    "Load average (1 min)": "Load average (1 min)",
+    "Load average (5 min)": "Load average (5 min)",
+    "Load average (15 min)": "Load average (15 min)",
+    "Firmware version": "Firmware version",
+    "Linux kernel": "Linux kernel",
+    "Temperature": "Temperature",
+    "Interfaces UP": "Interfaces UP",
+    "Interfaces": "Interfaces",
+    "Link up": "Link up",
+    "Interface RX": "Interface RX",
+    "Interface TX": "Interface TX",
+    "RX errors": "RX errors",
+    "TX errors": "TX errors",
+    "RX dropped packets": "RX dropped packets",
+    "TX dropped packets": "TX dropped packets",
+    "OpenWrt interfaces": "OpenWrt interfaces",
+    "OpenWrt password": "OpenWrt password",
+    "OpenWrt RPC username": "OpenWrt RPC username",
+    "Allow HTTP on a trusted network (unencrypted password)": "Allow HTTP on a trusted network (unencrypted password)",
+    "HTTPS CA file (optional)": "HTTPS CA file (optional)",
+    "Monitored interface names": "Monitored interface names",
+    "Temperature sensor path (optional)": "Temperature sensor path (optional)"
+  }
+}

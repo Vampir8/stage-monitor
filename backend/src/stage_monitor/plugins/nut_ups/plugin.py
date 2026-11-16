@@ -39,6 +39,14 @@ class NutProtocolError(ConnectionError):
     pass
 
 
+def number(values, key):
+    try:
+        value = float(values.get(key, ""))
+    except ValueError:
+        return None
+    return value if math.isfinite(value) else None
+
+
 class NutUpsPlugin(BaseDevicePlugin):
     def __init__(self, *args):
         super().__init__(*args)
@@ -129,20 +137,44 @@ class NutUpsPlugin(BaseDevicePlugin):
             raise
         flags = set(status.split())
         observed = now()
+        # Legrand HID 0.2 on the Keor PDU can report underscaled voltages.
+        keor_legacy_hid = (
+            values.get("ups.vendorid", "").lower() == "1cb0"
+            and values.get("ups.productid", "").lower() == "0038"
+            and values.get("driver.version.data") == "Legrand HID 0.2"
+        )
+        keor_legacy_battery = keor_legacy_hid and values.get("battery.voltage.nominal") == "1.2"
         metrics = [
             Metric(device_id=self.device.id, key="ups.status", value=status, observed_at=observed)
         ]
         for source, (key, unit) in MEASUREMENTS.items():
-            if source not in values:
+            value = number(values, source)
+            if value is None:
                 continue
-            try:
-                value = float(values[source])
-            except ValueError:
-                continue
-            if math.isfinite(value):
-                metrics.append(Metric(
-                    device_id=self.device.id, key=key, value=value, unit=unit, observed_at=observed,
-                ))
+            labels = {}
+            quality = "good"
+            if (
+                (keor_legacy_battery and key == "battery.voltage" and 0 < value < 3)
+                or (keor_legacy_hid and key == "output.voltage" and 0 < value < 30)
+            ):
+                labels = {"nut_raw_value": values[source], "nut_scale_factor": "10"}
+                value *= 10
+                if key == "output.voltage":
+                    quality = "unknown"
+            metrics.append(Metric(
+                device_id=self.device.id, key=key, value=value, unit=unit, observed_at=observed,
+                labels=labels, quality=quality,
+            ))
+        if number(values, "ups.realpower") is None:
+            load = number(values, "ups.load")
+            rated_watts = number(values, "ups.realpower.nominal")
+            if load is not None and load >= 0 and rated_watts is not None and rated_watts > 0:
+                estimated_watts = (load / 100) * rated_watts
+                if math.isfinite(estimated_watts):
+                    metrics.append(Metric(
+                        device_id=self.device.id, key="ups.estimated_realpower",
+                        value=round(estimated_watts, 0), unit="W", observed_at=observed,
+                    ))
         self.state = DeviceState(
             device_id=self.device.id, status=DeviceStatus.ONLINE,
             connection_status=ConnectionStatus.CONNECTED, observed_at=observed,

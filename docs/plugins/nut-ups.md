@@ -3,7 +3,7 @@
 Monitor a UPS exposed by Network UPS Tools (NUT), including a Legrand Keor PDU connected to a Dragino running NUT.
 
 - Plugin ID: `nut.ups`
-- Adapter version: `0.1.0`
+- Adapter version: `0.2.0`
 - Plugin API: `1.2`
 - Communication: `polling`
 - Endpoint transports: `tcp`
@@ -14,7 +14,7 @@ Monitor a UPS exposed by Network UPS Tools (NUT), including a Legrand Keor PDU c
 
 Add the adapter in **Devices → Add device**, choose the appropriate category, set the reachable host/port and configure polling/stale timeout. Keep monitoring paused when equipment is not in use. Configuration is shared across operators; dashboard layout can select collapsed/expanded features.
 
-Point the device at the upsd host, typically on TCP port 3493. In the device editor, click **Load options from server** and select the UPS by its NUT name, or enter the name manually. An empty name works when the server exposes a single UPS. Add one Stage Monitor device per UPS. Standard NUT status codes remain visible (OL means line power, OB means on battery and LB means low battery). To add alarms, configure parameter rules for `ups.on_battery` and `ups.low_battery`, with operator **equals** and value **true**. The adapter sends only LIST requests.
+Point the device at the upsd host, typically on TCP port 3493. In the device editor, click **Load options from server** and select the UPS by its NUT name, or enter the name manually. An empty name works when the server exposes a single UPS. Add one Stage Monitor device per UPS. Standard NUT status codes remain visible (OL means line power, OB means on battery and LB means low battery). To add alarms, configure parameter rules for `ups.on_battery` and `ups.low_battery`, with operator **equals** and value **true**. The adapter sends only LIST requests. When measured active power is unavailable, the adapter can estimate it from `ups.load × ups.realpower.nominal ÷ 100`, rounded to whole watts. The estimate assumes that the UPS expresses load as a percentage of its rated active power. The dashboard labels it separately from measured watts.
 
 ## Telemetry
 
@@ -25,6 +25,7 @@ Point the device at the upsd host, typically on TCP port 3493. In the device edi
 | `battery.runtime` | Battery runtime | number | s |
 | `battery.voltage` | Battery voltage | number | V |
 | `ups.load` | UPS load | number | % |
+| `ups.estimated_realpower` | Estimated active power | number | W |
 | `power.active` | Active power | number | W |
 | `power.apparent` | Apparent power | number | VA |
 | `ups.temperature` | UPS temperature | number | °C |
@@ -52,6 +53,6 @@ The manifest contains authoritative ranges, enums, required fields and defaults.
 
 ## Verification and limitations
 
-A local NUT protocol fixture exercises UPS selection, multiple devices, an alert rule and stale telemetry. Live telemetry was verified with a Legrand Keor PDU 800 over USB through a Dragino MS14N-S running NUT 2.8.1. Metric values are reported by the NUT driver and may need independent verification. See the [NUT wire protocol](https://networkupstools.org/historic/v2.8.1/docs/developer-guide.chunked/net-protocol.html).
+A local NUT protocol fixture exercises UPS selection, multiple devices, an alert rule and stale telemetry. Live telemetry was verified with a Legrand Keor PDU 800 over USB through a Dragino MS14N-S running NUT 2.8.1. For USB ID `1cb0:0038` on Legrand HID 0.2, the adapter rescales a legacy battery reading by a factor of 10 only when NUT reports a nominal battery voltage of 1.2 V. A corrected NUT driver can report battery voltage directly, preserving decimal precision. The adapter independently rescales underscaled output voltage and marks it unverified, which excludes it from threshold alerts. Metric labels retain the original NUT value and scale factor. See the [NUT wire protocol](https://networkupstools.org/historic/v2.8.1/docs/developer-guide.chunked/net-protocol.html).
 
 See [operations](../operations.md), [API](../api.md), [media](../media.md) and the [plugin SDK](../plugin-sdk.md) for shared behavior. A local fixture test does not certify all hardware variants.

@@ -73,6 +73,8 @@ Configuration titles are English source labels. An optional `x-credential-label`
 
 Use `x-list-options: true` on a string property to offer choices from the endpoint entered in the device editor. Handle `inspect(action="configuration:<property>")` by returning up to 100 objects containing a string `value` and an optional string `label`. The administrator-only lookup runs in a temporary worker before `connect()` and `start()`. Use only read operations and close any temporary connections within the inspection. Manual entry remains available. The optional `x-default-category` sets the initial group for new devices.
 
+Use `x-default-ports` to set a default port per endpoint transport. The device editor changes the port with the transport when the previous port was its default or the field is empty.
+
 The core validates major API compatibility, entrypoint shape, schemas, command uniqueness and snapshot bindings before activating an adapter. A bad plugin is reported through `/api/plugins` and does not stop unrelated devices.
 
 ## Lifecycle and isolation

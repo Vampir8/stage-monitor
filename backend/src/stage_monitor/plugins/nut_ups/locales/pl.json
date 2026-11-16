@@ -6,6 +6,7 @@
     "Battery charge": "Naładowanie baterii",
     "Battery runtime": "Czas pracy na baterii",
     "Battery voltage": "Napięcie baterii",
+    "Estimated active power": "Szacowana moc czynna",
     "Input frequency": "Częstotliwość wejściowa",
     "Input voltage": "Napięcie wejściowe",
     "Leave empty to select the only UPS on the server.": "Jeśli serwer udostępnia tylko jeden UPS, możesz zostawić to pole puste.",

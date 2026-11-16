@@ -26,7 +26,7 @@ Device categories are data, not a fixed core enum. A new category or adapter doe
 
 ## Integrations
 
-The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The public distribution contains **13 device adapters and no production simulator plugins**.
+The [plugin catalog](docs/plugins/README.md) contains individual setup guides, configuration reference, telemetry, commands and limitations. The catalog lists **14 production device adapters**.
 
 | Integration | Plugin ID | Purpose |
 | --- | --- | --- |
@@ -36,6 +36,7 @@ The [plugin catalog](docs/plugins/README.md) contains individual setup guides, c
 | OBSBOT Tail Air | `obsbot.tail_air` | VISCA state, optional PTZ/presets, portal telemetry and preview metadata |
 | MikroTik CRS326 | `mikrotik.crs326` | RouterOS resources, traffic and ports |
 | MikroTik RouterOS 7 | `mikrotik.routeros` | Basic network/resource summary |
+| OpenWrt | `openwrt.ubus` | Read-only uptime, memory, system load and interface statistics |
 | NETRON EN12 | `netron.en12` | Gateway and DMX port monitoring |
 | Phoenix Contact EEM-MA370 | `phoenix.eem_ma370` | Read-only Modbus TCP power measurements |
 | NUT UPS | `nut.ups` | Read-only UPS status, battery, load and voltage via Network UPS Tools |

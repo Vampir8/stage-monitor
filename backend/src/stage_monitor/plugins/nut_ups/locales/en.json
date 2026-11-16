@@ -6,6 +6,7 @@
     "Battery charge": "Battery charge",
     "Battery runtime": "Battery runtime",
     "Battery voltage": "Battery voltage",
+    "Estimated active power": "Estimated active power",
     "Input frequency": "Input frequency",
     "Input voltage": "Input voltage",
     "Leave empty to select the only UPS on the server.": "Leave empty to select the only UPS on the server.",

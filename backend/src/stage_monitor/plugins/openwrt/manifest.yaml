@@ -1,0 +1,92 @@
+plugin_id: openwrt.ubus
+plugin_version: 0.1.0
+plugin_api_version: '1.2'
+entrypoint: stage_monitor.plugins.openwrt.plugin:OpenWrtPlugin
+manufacturer: OpenWrt
+model: Generic router
+supported_protocols: [https, http]
+communication_mode: polling
+capabilities:
+  - id: network.monitoring
+commands: []
+telemetry:
+  - {key: system.uptime, title: Uptime, value_type: string}
+  - {key: system.uptime_seconds, title: Uptime in seconds, value_type: number, unit: s}
+  - {key: system.memory_free_mib, title: Free memory, value_type: number, unit: MiB}
+  - {key: system.memory_total_mib, title: Total memory, value_type: number, unit: MiB}
+  - {key: system.load_1m, title: Load average (1 min), value_type: number}
+  - {key: system.load_5m, title: Load average (5 min), value_type: number}
+  - {key: system.load_15m, title: Load average (15 min), value_type: number}
+  - {key: system.firmware, title: Firmware version, value_type: string}
+  - {key: system.kernel, title: Linux kernel, value_type: string}
+  - {key: temperature, title: Temperature, value_type: number, unit: degC}
+  - {key: network.ports_summary, title: Interfaces UP, value_type: string}
+  - {key: network.ports_up, title: Interfaces UP, value_type: number}
+  - {key: network.ports_total, title: Interfaces, value_type: number}
+  - {key: network.port_up, title: Link up, value_type: boolean}
+  - {key: network.port_rx_bps, title: Interface RX, value_type: number, unit: bit/s}
+  - {key: network.port_tx_bps, title: Interface TX, value_type: number, unit: bit/s}
+  - {key: network.port_rx_errors, title: RX errors, value_type: number}
+  - {key: network.port_tx_errors, title: TX errors, value_type: number}
+  - {key: network.port_rx_dropped, title: RX dropped packets, value_type: number}
+  - {key: network.port_tx_dropped, title: TX dropped packets, value_type: number}
+configuration_schema:
+  type: object
+  x-default-port: 443
+  x-default-ports: {https: 443, http: 80}
+  x-default-category: network
+  x-credential-label: OpenWrt password
+  properties:
+    username:
+      type: string
+      title: OpenWrt RPC username
+      default: root
+      minLength: 1
+      maxLength: 120
+    allow_plain_http:
+      type: boolean
+      title: Allow HTTP on a trusted network (unencrypted password)
+      default: false
+    ca_file:
+      type: string
+      title: HTTPS CA file (optional)
+      maxLength: 1024
+    interfaces:
+      type: array
+      title: Monitored interface names
+      default: []
+      maxItems: 64
+      uniqueItems: true
+      items: {type: string, minLength: 1, maxLength: 64}
+    temperature_path:
+      type: string
+      title: Temperature sensor path (optional)
+      maxLength: 120
+      pattern: '^/sys/class/(thermal/thermal_zone[0-9]+/temp|hwmon/hwmon[0-9]+/temp[0-9]+_input)$'
+  additionalProperties: false
+dashboard:
+  layout: network-summary
+  collapsed:
+    - network:host
+    - metric:system.uptime
+    - metric:system.memory_free_mib
+    - metric:network.ports_summary
+    - metric:temperature
+  expanded:
+    - network:host
+    - metric:system.uptime
+    - metric:system.memory_free_mib
+    - metric:system.memory_total_mib
+    - metric:system.load_1m
+    - metric:system.load_5m
+    - metric:system.load_15m
+    - metric:network.ports_summary
+    - metric:system.firmware
+    - metric:system.kernel
+    - metric:temperature
+    - widget:ports
+  widgets:
+    - id: ports
+      type: network-ports
+      label: OpenWrt interfaces
+      show_counters: true

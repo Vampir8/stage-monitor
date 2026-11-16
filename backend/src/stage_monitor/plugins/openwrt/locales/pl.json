@@ -1,0 +1,31 @@
+{
+  "api_version": 1,
+  "messages": {
+    "Uptime": "Czas pracy",
+    "Uptime in seconds": "Czas pracy w sekundach",
+    "Free memory": "Wolny RAM",
+    "Total memory": "Całkowity RAM",
+    "Load average (1 min)": "Średnie obciążenie (1 min)",
+    "Load average (5 min)": "Średnie obciążenie (5 min)",
+    "Load average (15 min)": "Średnie obciążenie (15 min)",
+    "Firmware version": "Wersja firmware’u",
+    "Linux kernel": "Jądro Linuksa",
+    "Temperature": "Temperatura",
+    "Interfaces UP": "Aktywne interfejsy",
+    "Interfaces": "Interfejsy",
+    "Link up": "Połączenie aktywne",
+    "Interface RX": "Odbiór danych",
+    "Interface TX": "Wysyłanie danych",
+    "RX errors": "Błędy RX",
+    "TX errors": "Błędy TX",
+    "RX dropped packets": "Odrzucone pakiety RX",
+    "TX dropped packets": "Odrzucone pakiety TX",
+    "OpenWrt interfaces": "Interfejsy OpenWrt",
+    "OpenWrt password": "Hasło OpenWrt",
+    "OpenWrt RPC username": "Użytkownik OpenWrt RPC",
+    "Allow HTTP on a trusted network (unencrypted password)": "Zezwalaj na HTTP w zaufanej sieci (hasło bez szyfrowania)",
+    "HTTPS CA file (optional)": "Plik CA dla HTTPS (opcjonalny)",
+    "Monitored interface names": "Nazwy monitorowanych interfejsów",
+    "Temperature sensor path (optional)": "Ścieżka czujnika temperatury (opcjonalna)"
+  }
+}

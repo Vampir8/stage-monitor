@@ -502,11 +502,18 @@ document.addEventListener('stage:ready', () => {
     for (const panel of card.querySelectorAll('.widget-network-ports')) {
       panel.replaceChildren();
       const formatTraffic=value=>typeof value==='number' && Number.isFinite(value) ? (value/1e6).toLocaleString(window.StageI18n?.locale || 'en-GB',{maximumFractionDigits:2})+'M' : '—';
+      const widget = manifests.get(device.plugin_id)?.dashboard?.widgets?.find(item => 'widget:'+item.id === panel.dataset.feature);
       for (const port of state.extra?.ports || []) {
         const current=!disabled && ['online','degraded'].includes(state.status);
         const tile=element('div','crs-port '+(current && port.up===true ? 'up' : current && port.up===false ? 'down' : 'unknown'));
         tile.append(element('div','pname',port.name),element('div','pstate',!current ? stageText("NO DATA") : port.disabled ? stageText("DISABLED") : port.up===true ? (port.rate || 'UP') : port.up===false ? 'DOWN' : '—'),
           element('div','ptraffic','RX '+(current ? formatTraffic(port.rx_bps) : '—')+' · TX '+(current ? formatTraffic(port.tx_bps) : '—')));
+        if (widget?.show_counters && current) {
+          for (const [label, counter] of [[stageText("Errors"), 'errors'], [stageText("Dropped packets"), 'dropped']]) {
+            const rx = port['rx_'+counter], tx = port['tx_'+counter];
+            if (rx != null || tx != null) tile.append(element('div','ptraffic',`${label} · RX ${rx ?? '—'} · TX ${tx ?? '—'}`));
+          }
+        }
         panel.append(tile);
       }
       if (!panel.childElementCount) panel.append(element('p','settings-help',stageText("Waiting for port data")));
